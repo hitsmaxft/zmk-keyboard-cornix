@@ -1,0 +1,410 @@
+layout: {zmk_keyboard: cornix}
+layers:
+  Qwer-Mac:
+  - $$mdi:keyboard-tab$$
+  - Q
+  - W
+  - E
+  - R
+  - T
+  - Y
+  - U
+  - I
+  - O
+  - P
+  - $$mdi:apple-keyboard-caps$$
+  - {type: none}
+  - A
+  - {t: S, h: '$$mdi:apple-keyboard-option$$'}
+  - {t: D, h: '$$mdi:apple-keyboard-shift$$'}
+  - {t: F, h: '$$mdi:apple-keyboard-control$$'}
+  - G
+  - H
+  - {t: J, h: '$$mdi:apple-keyboard-control$$'}
+  - {t: K, h: '$$mdi:apple-keyboard-shift$$'}
+  - {t: L, h: '$$mdi:apple-keyboard-option$$'}
+  - {t: ;, h: ':', s: ':'}
+  - {type: none}
+  - $$mdi:apple-keyboard-command$$
+  - Z
+  - X
+  - C
+  - V
+  - B
+  - {type: none}
+  - {type: none}
+  - N
+  - M
+  - {t: ',', h: <, s: <}
+  - {t: ., h: '>', s: '>'}
+  - {t: /, h: '?', s: '?'}
+  - $$mdi:apple-keyboard-command$$
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: ESC, h: Fun}
+  - {t: '$$mdi:keyboard-space$$', h: Edit-Mac}
+  - {t: \, h: Nav, s: '|'}
+  - {t: '''', h: '"', s: '"'}
+  - {t: '$$mdi:keyboard-return$$', h: Num}
+  - {t: '$$mdi:backspace-outline$$', h: Sym}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  Qwer-Win:
+  - $$mdi:keyboard-tab$$
+  - Q
+  - W
+  - E
+  - R
+  - T
+  - Y
+  - U
+  - I
+  - O
+  - P
+  - $$mdi:apple-keyboard-caps$$
+  - {type: none}
+  - A
+  - {t: S, h: '$$mdi:apple-keyboard-option$$'}
+  - {t: D, h: '$$mdi:apple-keyboard-shift$$'}
+  - {t: F, h: '$$mdi:apple-keyboard-control$$'}
+  - G
+  - H
+  - {t: J, h: '$$mdi:apple-keyboard-control$$'}
+  - {t: K, h: '$$mdi:apple-keyboard-shift$$'}
+  - {t: L, h: '$$mdi:apple-keyboard-option$$'}
+  - {t: ;, h: ':', s: ':'}
+  - {type: none}
+  - $$mdi:apple-keyboard-command$$
+  - Z
+  - X
+  - C
+  - V
+  - B
+  - {type: none}
+  - {type: none}
+  - N
+  - M
+  - {t: ',', h: <, s: <}
+  - {t: ., h: '>', s: '>'}
+  - {t: /, h: '?', s: '?'}
+  - $$mdi:apple-keyboard-command$$
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: ESC, h: Fun}
+  - {t: '$$mdi:keyboard-space$$', h: Edit-Win}
+  - {t: \, h: Nav, s: '|'}
+  - {t: '''', h: '"', s: '"'}
+  - {t: '$$mdi:keyboard-return$$', h: Num}
+  - {t: '$$mdi:backspace-outline$$', h: Sym}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  Fun:
+  - $$mdi:download-circle$$
+  - {t: '$$mdi:bluetooth$$', h: '1'}
+  - {t: '$$mdi:bluetooth$$', h: '2'}
+  - {t: '$$mdi:bluetooth$$', h: '3'}
+  - {t: '$$mdi:bluetooth$$', h: '4'}
+  - {t: '$$mdi:bluetooth$$', h: '5'}
+  - F10
+  - F7
+  - F8
+  - F9
+  - {type: none}
+  - $$mdi:download-circle$$
+  - {type: none}
+  - {type: none}
+  - $$mdi:apple-keyboard-option$$
+  - $$mdi:apple-keyboard-shift$$
+  - $$mdi:apple-keyboard-control$$
+  - {type: none}
+  - F11
+  - F4
+  - F5
+  - F6
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: Clear, h: All, s: '$$mdi:bluetooth-off$$'}
+  - {t: Clear, s: '$$mdi:bluetooth-off$$'}
+  - {type: none}
+  - {t: '$$mdi:toggle-switch$$', s: '$$mdi:bluetooth$$'}
+  - {t: '$$mdi:toggle-switch$$', s: '$$mdi:usb$$'}
+  - {type: none}
+  - {type: none}
+  - F12
+  - F1
+  - F2
+  - F3
+  - {t: Qwer-Mac, h: to}
+  - {t: Qwer-Win, h: to}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: held}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - $$mdi:backspace-reverse$$
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  Nav:
+  - {t: ▽, type: trans}
+  - {type: none}
+  - HOME
+  - $$mdi:arrow-up$$
+  - END
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - $$mdi:arrow-left$$
+  - $$mdi:arrow-down$$
+  - $$mdi:arrow-right$$
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - PgDn
+  - {type: none}
+  - PgUp
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: held}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  Num:
+  - {t: ▽, type: trans}
+  - {type: none}
+  - {t: '7', s: '&'}
+  - {t: '8', s: '*'}
+  - {t: '9', s: (}
+  - {t: '0', s: )}
+  - {type: none}
+  - <-
+  - ->
+  - =>
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: \, s: '|'}
+  - {t: '4', s: $}
+  - {t: '5', s: '%'}
+  - {t: '6', s: ^}
+  - {t: '-', s: _}
+  - {type: none}
+  - <=
+  - '>='
+  - '!='
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: '''', s: '"'}
+  - {t: '1', s: '!'}
+  - {t: '2', s: '@'}
+  - {t: '3', s: '#'}
+  - {t: '=', s: +}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - {type: none}
+  - +=
+  - -=
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: '[', s: '{'}
+  - {t: ']', s: '}'}
+  - {t: '`', s: '~'}
+  - {type: none}
+  - {type: held}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  Sym:
+  - {t: ▽, type: trans}
+  - {type: none}
+  - '&'
+  - '*'
+  - (
+  - )
+  - {type: none}
+  - <-
+  - ->
+  - =>
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '|'
+  - $
+  - '%'
+  - ^
+  - _
+  - {type: none}
+  - <=
+  - '>='
+  - '!='
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - '"'
+  - '!'
+  - '@'
+  - '#'
+  - +
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - {type: none}
+  - +=
+  - -=
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - '{'
+  - '}'
+  - '~'
+  - {type: none}
+  - {type: none}
+  - {type: held}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  Edit-Mac:
+  - {t: ▽, type: trans}
+  - Alt+Q
+  - Alt+W
+  - Alt+E
+  - Alt+R
+  - Alt+T
+  - Alt+Y
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Alt+A
+  - Alt+S
+  - Alt+D
+  - Alt+F
+  - Alt+G
+  - Alt+H
+  - $$mdi:apple-keyboard-shift$$
+  - $$mdi:apple-keyboard-control$$
+  - $$mdi:apple-keyboard-option$$
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Alt+Z
+  - Alt+X
+  - Alt+C
+  - Alt+V
+  - Alt+B
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Alt+N
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: held}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  Edit-Win:
+  - {t: ▽, type: trans}
+  - Ctl+Q
+  - Ctl+W
+  - Ctl+E
+  - Ctl+R
+  - Ctl+T
+  - Ctl+Y
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Ctl+A
+  - Ctl+S
+  - Ctl+D
+  - Ctl+F
+  - Ctl+G
+  - Ctl+H
+  - $$mdi:apple-keyboard-shift$$
+  - $$mdi:apple-keyboard-control$$
+  - $$mdi:apple-keyboard-option$$
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Ctl+Z
+  - Ctl+X
+  - Ctl+C
+  - Ctl+V
+  - Ctl+B
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - Ctl+N
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {t: ▽, type: trans}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: held}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
+  - {type: none}
