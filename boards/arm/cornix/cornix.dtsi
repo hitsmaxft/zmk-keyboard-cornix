@@ -24,15 +24,13 @@
 
 };
 
-&spi1 {
-    status = "disabled";
-
+&spi3 {
+    status = "okay";
     compatible = "nordic,nrf-spim";
 
-
-        pinctrl-0 = <&spi1_default>;
-        pinctrl-1 = <&spi1_sleep>;
-        pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&spi3_default>;
+    pinctrl-1 = <&spi3_sleep>;
+    pinctrl-names = "default", "sleep";
 
     led_strip: ws2812@0 {
         status = "disabled";
@@ -40,12 +38,19 @@
 
         /* SPI */
         reg = <0>; /* ignored, but necessary for SPI bindings */
-        spi-max-frequency = <8000000>;  // 8MHz
+        // spi-max-frequency = <8000000>;  // 8MHz
+        spi-max-frequency = <6400000>;  // 6.4 MHz (was 8 MHz)
+        reset-delay = <70>;
 
         /* WS2812 */
         chain-length = <2>; 
-        spi-one-frame = <0x70>;
-        spi-zero-frame = <0x40>;
+        // spi-one-frame = <0x78>;         // 01111000 for 1-bit (was 0x70)
+        // spi-zero-frame = <0x60>;        // 01100000 for 0-bit (was 0x40)
+        spi-one-frame = <0xF8>;
+        spi-zero-frame = <0x80>;
+
+        // spi-one-frame = <ONE_FRAME>;
+		// spi-zero-frame = <ZERO_FRAME>;
         color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 };
@@ -53,26 +58,13 @@
 
 
 / {
-    // rgb_underglow: rgb_underglow {
-    //     status = "okay";
-    //     compatible = "zmk,rgb-underglow";
-    //     label = "RGB";
-    //     chain-length = <2>;
-    //     brightness = <60>;
-    //     effect = "breathing";
-    // };
     soft_off_wakers {
         compatible = "zmk,soft-off-wakeup-sources";
         wakeup-sources = <&kscan0>;
     };
 
-    aliases {
-        status-ws2812 = &led_strip;
-    };
     chosen {
         zmk,bttery = &vbatt;
-		// widget,rgb = &led_strip;
-		// zmk,underglow = &led_strip;
     };
 
 };

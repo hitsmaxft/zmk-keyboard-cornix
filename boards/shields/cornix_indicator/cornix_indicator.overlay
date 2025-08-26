@@ -1,0 +1,21 @@
+#include <zephyr/dt-bindings/led/led.h>
+
+        &led_strip {
+            status = "okay";
+        };
+/ {
+
+    EXT_POWER {
+        status = "okay";
+    };
+
+    aliases {
+        status-ws2812 = &led_strip;
+    };
+
+    chosen {
+		  widget,rgb = &led_strip;
+    };
+};
+
+//vim: set ft=dts:

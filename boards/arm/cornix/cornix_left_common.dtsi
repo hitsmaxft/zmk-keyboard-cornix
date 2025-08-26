@@ -30,13 +30,13 @@
 
 // rgb,SPI
 &pinctrl {
-    spi1_default: spi1_default {
+    spi3_default: spi3_default {
         group1 {
             psels = <NRF_PSEL(SPIM_MOSI, 0, 24)>;
         };
     };
 
-    spi1_sleep: spi1_sleep {
+    spi3_sleep: spi3_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_MOSI, 0, 24)>;
             low-power-enable;
