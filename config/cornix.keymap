@@ -155,10 +155,10 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&kp TAB       &kp Q  &kp W        &kp E              &kp R                &kp T                           &kp Y                           &kp U                 &kp I                &kp O                 &kp P               &kp CAPSLOCK
-&none         &kp A  &hml LALT S  &hml LEFT_SHIFT D  &hml LEFT_CONTROL F  &kp G                           &kp H                           &hmr RIGHT_CONTROL J  &hmr RIGHT_SHIFT K   &hmr RALT L           &as COLON SEMI      &none
-&kp LEFT_GUI  &kp Z  &kp X        &kp C              &kp V                &kp B             &none  &none  &kp N                           &kp M                 &as LESS_THAN COMMA  &as GREATER_THAN DOT  &as QUESTION SLASH  &kp RIGHT_GUI
-&none         &none  &none        &mol 2 ESC         &mor 6 SPACE         &mor 3 BACKSLASH                &as DOUBLE_QUOTES SINGLE_QUOTE  &mor 4 ENTER          &mor 5 BACKSPACE     &none                 &none               &none
+&kp TAB           &kp Q  &kp W        &kp E              &kp R         &kp T                           &kp Y                           &kp U         &kp I                &kp O                 &kp P               &kp CAPSLOCK
+&kp LEFT_CONTROL  &kp A  &hml LALT S  &hml LEFT_SHIFT D  &kp F         &kp G                           &kp H                           &kp J         &hmr RIGHT_SHIFT K   &hmr RALT L           &as COLON SEMI      &kp RIGHT_CONTROL
+&kp LEFT_GUI      &kp Z  &kp X        &kp C              &kp V         &kp B             &none  &none  &kp N                           &kp M         &as LESS_THAN COMMA  &as GREATER_THAN DOT  &as QUESTION SLASH  &kp RIGHT_GUI
+&none             &none  &none        &mol 2 ESC         &mor 6 SPACE  &mor 3 BACKSLASH                &as DOUBLE_QUOTES SINGLE_QUOTE  &mor 4 ENTER  &mor 5 BACKSPACE     &none                 &none               &none
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -166,10 +166,10 @@
 
         Qwer-Win {
             bindings = <
-&kp TAB       &kp Q  &kp W        &kp E              &kp R                &kp T                           &kp Y                           &kp U                 &kp I                &kp O                 &kp P               &kp CAPSLOCK
-&none         &kp A  &hml LALT S  &hml LEFT_SHIFT D  &hml LEFT_CONTROL F  &kp G                           &kp H                           &hmr RIGHT_CONTROL J  &hmr RIGHT_SHIFT K   &hmr RALT L           &as COLON SEMI      &none
-&kp LEFT_GUI  &kp Z  &kp X        &kp C              &kp V                &kp B             &none  &none  &kp N                           &kp M                 &as LESS_THAN COMMA  &as GREATER_THAN DOT  &as QUESTION SLASH  &kp RIGHT_GUI
-&none         &none  &none        &mol 2 ESC         &mor 7 SPACE         &mor 3 BACKSLASH                &as DOUBLE_QUOTES SINGLE_QUOTE  &mor 4 ENTER          &mor 5 BACKSPACE     &none                 &none               &none
+&kp TAB           &kp Q  &kp W        &kp E              &kp R         &kp T                           &kp Y                           &kp U         &kp I                &kp O                 &kp P               &kp CAPSLOCK
+&kp LEFT_CONTROL  &kp A  &hml LALT S  &hml LEFT_SHIFT D  &kp F         &kp G                           &kp H                           &kp J         &hmr RIGHT_SHIFT K   &hmr RALT L           &as COLON SEMI      &kp RIGHT_CONTROL
+&kp LEFT_GUI      &kp Z  &kp X        &kp C              &kp V         &kp B             &none  &none  &kp N                           &kp M         &as LESS_THAN COMMA  &as GREATER_THAN DOT  &as QUESTION SLASH  &kp RIGHT_GUI
+&none             &none  &none        &mol 2 ESC         &mor 7 SPACE  &mor 3 BACKSLASH                &as DOUBLE_QUOTES SINGLE_QUOTE  &mor 4 ENTER  &mor 5 BACKSPACE     &none                 &none               &none
             >;
 
             sensor-bindings =
@@ -186,10 +186,10 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&bootloader  &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2    &bt BT_SEL 3      &bt BT_SEL 4                &kp F10  &kp F7  &kp F8      &kp F9  &none  &bootloader
-&none        &none           &kp LALT      &kp LEFT_SHIFT  &kp LEFT_CONTROL  &none                       &kp F11  &kp F4  &kp F5      &kp F6  &none  &none
-&none        &bt BT_CLR_ALL  &bt BT_CLR    &none           &out OUT_BLE      &out OUT_USB  &none  &none  &kp F12  &kp F1  &kp F2      &kp F3  &to 0  &to 1
-&none        &none           &none         &none           &none             &none                       &none    &none   &kp DELETE  &none   &none  &none
+&bootloader  &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2    &bt BT_SEL 3  &bt BT_SEL 4                &kp F10  &kp F7  &kp F8      &kp F9  &none  &bootloader
+&trans       &none           &kp LALT      &kp LEFT_SHIFT  &none         &none                       &kp F11  &kp F4  &kp F5      &kp F6  &none  &none
+&trans       &bt BT_CLR_ALL  &bt BT_CLR    &none           &out OUT_BLE  &out OUT_USB  &none  &none  &kp F12  &kp F1  &kp F2      &kp F3  &to 0  &to 1
+&none        &none           &none         &none           &none         &none                       &none    &none   &kp DELETE  &none   &none  &none
             >;
 
             sensor-bindings =
@@ -250,10 +250,10 @@
 
         Edit-Mac {
             bindings = <
-&trans  &kp LA(Q)  &kp LA(W)  &kp LA(E)  &kp LA(R)  &kp LA(T)                  &kp LA(Y)  &none            &none              &none          &none  &trans
-&trans  &kp LA(A)  &kp LA(S)  &kp LA(D)  &kp LA(F)  &kp LA(G)                  &kp LA(H)  &kp RIGHT_SHIFT  &kp RIGHT_CONTROL  &kp RIGHT_ALT  &none  &trans
-&trans  &kp LA(Z)  &kp LA(X)  &kp LA(C)  &kp LA(V)  &kp LA(B)  &trans  &trans  &kp LA(N)  &none            &none              &none          &none  &trans
-&none   &none      &none      &none      &none      &none                      &none      &none            &none              &none          &none  &none
+&trans  &kp LA(Q)  &kp LA(W)  &kp LA(E)  &kp LA(R)  &kp LA(T)                  &kp LA(Y)  &none  &none            &none          &none  &trans
+&trans  &kp LA(A)  &kp LA(S)  &kp LA(D)  &kp LA(F)  &kp LA(G)                  &kp LA(H)  &none  &kp RIGHT_SHIFT  &kp RIGHT_ALT  &none  &trans
+&trans  &kp LA(Z)  &kp LA(X)  &kp LA(C)  &kp LA(V)  &kp LA(B)  &trans  &trans  &kp LA(N)  &none  &none            &none          &none  &trans
+&none   &none      &none      &none      &none      &none                      &none      &none  &none            &none          &none  &none
             >;
         };
 
@@ -266,10 +266,10 @@
             //                    |         |         |         |         |         | |      |      |      |       |      |
 
             bindings = <
-&trans  &kp LC(Q)  &kp LC(W)  &kp LC(E)  &kp LC(R)  &kp LC(T)                  &kp LC(Y)  &none            &none              &none          &none  &trans
-&trans  &kp LC(A)  &kp LC(S)  &kp LC(D)  &kp LC(F)  &kp LC(G)                  &kp LC(H)  &kp RIGHT_SHIFT  &kp RIGHT_CONTROL  &kp RIGHT_ALT  &none  &trans
-&trans  &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &kp LC(B)  &trans  &trans  &kp LC(N)  &none            &none              &none          &none  &trans
-&none   &none      &none      &none      &none      &none                      &none      &none            &none              &none          &none  &none
+&trans  &kp LC(Q)  &kp LC(W)  &kp LC(E)  &kp LC(R)  &kp LC(T)                  &kp LC(Y)  &none  &none            &none          &none  &trans
+&trans  &kp LC(A)  &kp LC(S)  &kp LC(D)  &kp LC(F)  &kp LC(G)                  &kp LC(H)  &none  &kp RIGHT_SHIFT  &kp RIGHT_ALT  &none  &trans
+&trans  &kp LC(Z)  &kp LC(X)  &kp LC(C)  &kp LC(V)  &kp LC(B)  &trans  &trans  &kp LC(N)  &none  &none            &none          &none  &trans
+&none   &none      &none      &none      &none      &none                      &none      &none  &none            &none          &none  &none
             >;
         };
     };
