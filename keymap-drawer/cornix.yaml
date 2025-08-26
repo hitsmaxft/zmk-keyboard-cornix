@@ -13,18 +13,18 @@ layers:
   - O
   - P
   - $$mdi:apple-keyboard-caps$$
-  - {type: none}
+  - $$mdi:apple-keyboard-control$$
   - A
   - {t: S, h: '$$mdi:apple-keyboard-option$$'}
   - {t: D, h: '$$mdi:apple-keyboard-shift$$'}
-  - {t: F, h: '$$mdi:apple-keyboard-control$$'}
+  - F
   - G
   - H
-  - {t: J, h: '$$mdi:apple-keyboard-control$$'}
+  - J
   - {t: K, h: '$$mdi:apple-keyboard-shift$$'}
   - {t: L, h: '$$mdi:apple-keyboard-option$$'}
   - {t: ;, h: ':', s: ':'}
-  - {type: none}
+  - $$mdi:apple-keyboard-control$$
   - $$mdi:apple-keyboard-command$$
   - Z
   - X
@@ -64,18 +64,18 @@ layers:
   - O
   - P
   - $$mdi:apple-keyboard-caps$$
-  - {type: none}
+  - $$mdi:apple-keyboard-control$$
   - A
   - {t: S, h: '$$mdi:apple-keyboard-option$$'}
   - {t: D, h: '$$mdi:apple-keyboard-shift$$'}
-  - {t: F, h: '$$mdi:apple-keyboard-control$$'}
+  - F
   - G
   - H
-  - {t: J, h: '$$mdi:apple-keyboard-control$$'}
+  - J
   - {t: K, h: '$$mdi:apple-keyboard-shift$$'}
   - {t: L, h: '$$mdi:apple-keyboard-option$$'}
   - {t: ;, h: ':', s: ':'}
-  - {type: none}
+  - $$mdi:apple-keyboard-control$$
   - $$mdi:apple-keyboard-command$$
   - Z
   - X
@@ -115,11 +115,11 @@ layers:
   - F9
   - {type: none}
   - $$mdi:download-circle$$
-  - {type: none}
+  - {t: ▽, type: trans}
   - {type: none}
   - $$mdi:apple-keyboard-option$$
   - $$mdi:apple-keyboard-shift$$
-  - $$mdi:apple-keyboard-control$$
+  - {type: none}
   - {type: none}
   - F11
   - F4
@@ -127,7 +127,7 @@ layers:
   - F6
   - {type: none}
   - {type: none}
-  - {type: none}
+  - {t: ▽, type: trans}
   - {t: Clear, h: All, s: '$$mdi:bluetooth-off$$'}
   - {t: Clear, s: '$$mdi:bluetooth-off$$'}
   - {type: none}
@@ -326,8 +326,8 @@ layers:
   - Alt+F
   - Alt+G
   - Alt+H
+  - {type: none}
   - $$mdi:apple-keyboard-shift$$
-  - $$mdi:apple-keyboard-control$$
   - $$mdi:apple-keyboard-option$$
   - {type: none}
   - {t: ▽, type: trans}
@@ -377,8 +377,8 @@ layers:
   - Ctl+F
   - Ctl+G
   - Ctl+H
+  - {type: none}
   - $$mdi:apple-keyboard-shift$$
-  - $$mdi:apple-keyboard-control$$
   - $$mdi:apple-keyboard-option$$
   - {type: none}
   - {t: ▽, type: trans}
