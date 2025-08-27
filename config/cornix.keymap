@@ -104,7 +104,7 @@
             tapping-term-ms = <220>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <100>;
-            hold-trigger-key-positions = <KEYS_R KEYS_T 6 7 8 9 10 11 18 19 20 21 22 23 32 33 34 35 36 37 47 48 49 31 5 4 3 2 1 0 17 16 15 14 13 12 38 24 26 39 25 40 28 27 29>;
+            hold-trigger-key-positions = <KEYS_R KEYS_T 6 7 8 9 10 11 18 19 20 21 22 23 32 33 34 35 36 37 47 48 49 31 44 45 46>;
             hold-trigger-on-release;
             label = "MO_LEFT";
         };
@@ -118,7 +118,7 @@
             tapping-term-ms = <220>;
             quick-tap-ms = <175>;
             require-prior-idle-ms = <100>;
-            hold-trigger-key-positions = <KEYS_L KEYS_T 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29 30 38 39 40 6 8 9 11 10 23 22 35 21 34 33 7 20 19 32 31 18 37 36 49 48 47>;
+            hold-trigger-key-positions = <KEYS_L KEYS_T 0 1 2 3 4 5 12 13 14 15 16 17 24 25 26 27 28 29 30 38 39 40 41 42 43>;
             hold-trigger-on-release;
             label = "MO_RIGHT";
         };
