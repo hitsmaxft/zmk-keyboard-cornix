@@ -25,14 +25,14 @@
 };
 
 &spi3 {
-    status = "okay";
+    status = "disabled";
     compatible = "nordic,nrf-spim";
 
     pinctrl-0 = <&spi3_default>;
     pinctrl-1 = <&spi3_sleep>;
     pinctrl-names = "default", "sleep";
 
-    led_strip: ws2812@0 {
+    ws2812@0 {
         status = "disabled";
         compatible = "worldsemi,ws2812-spi";
 

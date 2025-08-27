@@ -1,8 +1,12 @@
-#include <zephyr/dt-bindings/led/led.h>
+// #include <zephyr/dt-bindings/led/led.h>
+&spi3 {
+    status = "okay";
 
-        &led_strip {
-            status = "okay";
-        };
+   led_strip: ws2812@0 {
+        status = "okay";
+    };
+};
+
 / {
 
     EXT_POWER {
