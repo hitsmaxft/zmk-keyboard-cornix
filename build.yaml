@@ -19,15 +19,15 @@ include:
     artifact-name: cornix_dongle
 
   - board: cornix_left
-    shield: cornix_indicator
+    #shield: cornix_indicator
     artifact-name: cornix_left_default
 
   - board: cornix_ph_left
-    shield: cornix_indicator
+    #shield: cornix_indicator
     artifact-name: cornix_left_for_dongle
 
   - board: cornix_right
-    shield: cornix_indicator
+    #shield: cornix_indicator
     artifact-name: cornix_right
 
   - board: cornix_right

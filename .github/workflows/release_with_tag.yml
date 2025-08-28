@@ -30,12 +30,26 @@ jobs:
         run: |
           cd ./artifacts
           zip zmk-keyboard-cornix-${{ github.ref_name }}.zip *.uf2
+      - name: Determine release type
+        id: reltype
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if [[ "$TAG" =~ [a-zA-Z] ]]; then
+            echo "prerelease=true" >> $GITHUB_OUTPUT
+            echo "make_latest=false" >> $GITHUB_OUTPUT
+          else
+            echo "prerelease=false" >> $GITHUB_OUTPUT
+            echo "make_latest=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Release
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
           files: ./artifacts/zmk-keyboard-cornix-${{ github.ref_name }}.zip
           name: "Release ${{ github.ref_name }}"
+          make_latest: ${{ steps.reltype.outputs.make_latest }}
+          prerelease: ${{ steps.reltype.outputs.prerelease }}
           body: |
             Automated ZMK firmware release for version ${{ github.ref_name }}.
             Download `zmk-keyboard-cornix-${{ github.ref_name }}.zip` below.
