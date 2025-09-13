@@ -1,6 +1,6 @@
-# ZMK Shield Cornix
+# ZMK Keyboard for  Cornix
 
-This shield has been tested with Cornix using ZMK and provides full split-role configuration, battery power management, and Bluetooth central/peripheral setup per ZMK split guidelines 
+This community firmwarw has been tested with Cornix using ZMK and provides full split-role configuration, battery power management, and Bluetooth central/peripheral setup per ZMK split guidelines 
 
 
 ![image](images/cornix_with_dongle.png)
