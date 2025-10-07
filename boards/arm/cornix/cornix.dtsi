@@ -3,6 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
+
+// common code snippet for cornix left and right boards
+// dongle should not use this file
 #include <nordic/nrf52840_qiaa.dtsi>
 #include <dt-bindings/led/led.h>
 #include "cornix-pinctrl.dtsi"
@@ -43,7 +46,7 @@
         reset-delay = <70>;
 
         /* WS2812 */
-        chain-length = <2>; 
+        chain-length = <2>;
         // spi-one-frame = <0x78>;         // 01111000 for 1-bit (was 0x70)
         // spi-zero-frame = <0x60>;        // 01100000 for 0-bit (was 0x40)
         spi-one-frame = <0xF8>;

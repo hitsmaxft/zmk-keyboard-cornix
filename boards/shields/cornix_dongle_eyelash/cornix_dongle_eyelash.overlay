@@ -2,14 +2,7 @@
 
 /{
     chosen {
-        zmk,kscan = &mock_kscan;
         zephyr,display = &oled;
-    };
-    mock_kscan: kscan_1 {
-        compatible = "zmk,kscan-mock";
-        columns = <0>;
-        rows = <0>;
-        events = <0>;
     };
 };
 // vim: set ft=dts :
@@ -27,8 +20,8 @@
                 <NRF_PSEL(TWIM_SCL, 0, 20)>;
             low-power-enable;
         };
-    };	
-}; 
+    };
+};
 
 
 &i2c0 {
@@ -53,4 +46,3 @@
 };
 
 //vim: set ft=dts:
-
