@@ -6,9 +6,6 @@
 
 #include "zmk-helpers/helper.h"
 #include "includes/cornix54.h"
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/keys.h>
 
 // tap windows for ctl alt and gui
 
@@ -51,10 +48,10 @@
             #binding-cells = <2>;
             bindings = <&kp>, <&kp>;
 
-            flavor = "balanced";
-            tapping-term-ms = <HM_TAPPING_TERM>;
-            quick-tap-ms = <200>;                // repeat on tap-into-hold
-            require-prior-idle-ms = <HM_PRIOR_IDLE>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <150>;                // repeat on tap-into-hold
+            require-prior-idle-ms = <100>;
             hold-trigger-key-positions = <KEYS_R KEYS_T>;
             hold-trigger-on-release;
         };
@@ -64,10 +61,10 @@
             #binding-cells = <2>;
             bindings = <&kp>, <&kp>;
 
-            flavor = "balanced";
-            tapping-term-ms = <HM_TAPPING_TERM>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <HM_PRIOR_IDLE>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <100>;
             hold-trigger-key-positions = <KEYS_L KEYS_T>;
             hold-trigger-on-release;
         };
@@ -83,10 +80,10 @@
 
             //flavor = "balanced";
 
-            flavor = "balanced";
-            tapping-term-ms = <HM_TAPPING_TERM_FAST>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <HM_PRIOR_IDLE>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <100>;
             hold-trigger-key-positions = <KEYS_R KEYS_T>;
             hold-trigger-on-release;
         };
@@ -96,10 +93,10 @@
             #binding-cells = <2>;
             bindings = <&kp>, <&kp>;
 
-            flavor = "balanced";
-            tapping-term-ms = <HM_TAPPING_TERM_FAST>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <HM_PRIOR_IDLE>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <100>;
             hold-trigger-key-positions = <KEYS_L KEYS_T>;
 
             // for quick tapping; shift+~
@@ -132,9 +129,44 @@
             #binding-cells = <2>;
             bindings = <&mo>, <&kp>;
 
-            flavor = "hold-preferred";
-            tapping-term-ms = <HM_TAPPING_TERM>;
-            quick-tap-ms = <200>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <100>;
+        };
+
+        snapshot: snapshot {
+            compatible = "zmk,behavior-tap-dance";
+            label = "SNAPSHOT";
+            #binding-cells = <0>;
+            bindings = <&kp LSHFT>, <&kp LS(LG(NUMBER_4))>;
+        };
+
+        hm_hold_prefer: hm_hold_prefer {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HM_HOLD_PREFER";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <280>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <100>;
+            hold-while-undecided;
+            hold-while-undecided-linger;
+            retro-tap;
+        };
+
+        hm_holdprefer_nolinger: hm_holdprefer_nolinger {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HM_HOLDPREFER_NOLINGER";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <280>;
+            quick-tap-ms = <150>;
+            require-prior-idle-ms = <100>;
+            hold-while-undecided;
+            retro-tap;
         };
     };
 
@@ -179,6 +211,15 @@
         };
     };
 
+    macros {
+        snapshnot: snapshnot {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LS(LG(NUMBER_4))>;
+            label = "SNAPSHNOT";
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -193,11 +234,12 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&kp TAB  &kp Q          &kp W         &kp E         &kp R                &kp T                      &kp Y      &kp U                &kp I            &kp O         &kp P             &kp BSLH
-&kp ESC  &hm_l LCTRL A  &hm_l LALT S  &hm_l LGUI D  &hm_shift_l LSHFT F  &kp G                      &kp H      &hm_shift_r RSHFT J  &hm_r RGUI K     &hm_r RALT L  &hm_r RCTRL SEMI  &kp SQT
-&mo 4    &hm_l LGUI Z   &kp X         &kp C         &kp V                &kp B        &none  &none  &kp N      &kp M                &kp COMMA        &kp DOT       &kp FSLH          &kp BACKSPACE
-&none    &none          &none         &lt 6 ESCAPE  &mo 2                &lt 5 SPACE                &kp ENTER  &mo 3                &lt 2 BACKSPACE  &none         &none             &none
+&kp TAB                          &kp Q          &kp W                &kp E                &kp R                &kp T                                                       &kp Y                          &kp U                &kp I                &kp O    &kp P          &kp BSLH
+&kp ESC                          &hm_l LG(A) A  &lt 3 S              &lt 2 D              &lt 1 F              &hm_shift_l LEFT_SHIFT G                                    &hm_shift_r RIGHT_SHIFT H      &lt 1 J              &lt 2 K              &lt 3 L  &kp SEMICOLON  &kp SINGLE_QUOTE
+&hm_l LC(LEFT_ALT) LC(UP_ARROW)  &hm_l LGUI Z   &hm_shift_l LG(X) X  &hm_shift_l LG(C) C  &hm_shift_l LG(V) V  &hm_shift_l LG(B) B           &kp K_MUTE  &kp LC(UP_ARROW)  &kp N                          &kp M                &kp COMMA            &kp DOT  &kp FSLH       &kp BACKSPACE
+&snapshot                        &kp LCTRL      &kp LEFT_ALT         &lt 6 ESCAPE         &hm LEFT_GUI TAB     &hm_shift_l LEFT_SHIFT ENTER                                &hm_shift_r RIGHT_SHIFT SPACE  &hm RCTRL BACKSPACE  &lt 2 RIGHT_CONTROL  &none    &none          &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -212,11 +254,12 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&trans    &trans         &trans        &trans         &trans               &trans                  &trans  &trans               &trans         &trans        &trans            &trans
-&trans    &hm_l LCTRL A  &hm_l LALT S  &hm_l LCTRL D  &hm_shift_l LSHFT F  &trans                  &trans  &hm_shift_r RSHFT J  &hm_r RCTRL K  &hm_r RALT L  &hm_r RCTRL SEMI  &trans
-&kp LGUI  &trans         &trans        &trans         &trans               &trans  &trans  &trans  &trans  &trans               &trans         &trans        &trans            &trans
-&none     &none          &none         &trans         &trans               &trans                  &trans  &trans               &trans         &none         &none             &none
+&trans        &kp NUMBER_1   &kp NUMBER_2  &kp NUMBER_3   &kp NUMBER_4         &kp NUMBER_5                  &kp NUMBER_6  &kp NUMBER_7  &kp N8        &kp N9     &kp NUMBER_0      &trans
+&bt BT_SEL 0  &hm_l LCTRL A  &hm_l LALT S  &hm_l LCTRL D  &hm_shift_l LSHFT F  &trans                        &kp LEFT      &kp DOWN      &kp UP_ARROW  &kp RIGHT  &hm_r RCTRL SEMI  &trans
+&bt BT_SEL 1  &bt BT_SEL 3   &trans        &trans         &trans               &trans        &trans  &trans  &trans        &kp HOME      &kp END       &trans     &trans            &trans
+&bt BT_SEL 2  &bt BT_SEL 4   &bt BT_CLR    &trans         &trans               &trans                        &trans        &trans        &trans        &none      &none             &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -232,11 +275,12 @@
             //               |     |      |      |      |        |  |       |      |       |       |      |
 
             bindings = <
-&none  &kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT                  &kp CARET  &kp AMPS      &kp ASTRK  &kp LPAR   &kp RPAR  &kp PIPE
-&none  &none     &kp LBKT  &kp RBKT  &kp LBRC  &kp RBRC                   &kp EQUAL  &kp UNDER     &kp MINUS  &kp PLUS   &kp DQT   &kp SQT
-&none  &none     &kp RBKT  &kp RPAR  &kp PIPE  &kp BSLH   &trans  &trans  &kp FSLH   &kp QUESTION  &kp GRAVE  &kp TILDE  &kp SQT   &none
-&none  &none     &none     &none     &trans    &trans                     &kp TILDE  &trans        &kp GRAVE  &none      &none     &none
+&none  &kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT                  &kp CARET  &kp AMPS   &kp ASTRK         &kp LPAR           &kp RPAR   &kp PIPE
+&none  &none     &kp LBKT  &kp RBKT  &kp LBRC  &kp RBRC                   &kp MINUS  &kp EQUAL  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp GRAVE  &kp SQT
+&none  &none     &kp RBKT  &kp RPAR  &kp PIPE  &kp BSLH   &trans  &trans  &kp UNDER  &kp PLUS   &kp LEFT_BRACE    &kp RIGHT_BRACE    &kp TILDE  &none
+&none  &none     &none     &none     &trans    &trans                     &kp TILDE  &trans     &kp GRAVE         &none              &none      &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -256,6 +300,7 @@
 &trans  &kp N6  &kp N7  &kp N8   &kp N9  &kp N0         &trans  &trans  &kp TAB   &kp INS    &kp HOME   &kp END   &trans   &trans
 &none   &none   &none   &kp TAB  &trans  &kp BACKSPACE                  &trans    &trans     &kp N3     &none     &none    &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
 

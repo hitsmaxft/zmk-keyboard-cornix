@@ -225,10 +225,12 @@ include:
   # Use cornix without dongle
   - board: cornix_left
     # shield: cornix_indicator
+    snippet: studio-rpc-usb-uart
     artifact-name: cornix_left
 
   - board: cornix_right
     # shield: cornix_indicator
+    snippet: studio-rpc-usb-uart
     artifact-name: cornix_right
 
   - board: cornix_right
