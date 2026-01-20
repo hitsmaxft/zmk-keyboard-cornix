@@ -129,6 +129,20 @@
             hold-trigger-on-release;
         };
 
+        gui_l: gui_l {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+
+            flavor = "tap-preferred";
+            tapping-term-ms = <320>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <90>;
+            hold-trigger-key-positions = <KEYS_R KEYS_T>;
+
+            hold-trigger-on-release;        
+        };
+
         /*
          * Non-Positional Homerow Mods
          * Used for &mm_grescm_gui behavior on left hand.
@@ -180,7 +194,7 @@
             bindings = <
 &none  &kp Q         &kp W         &kp E               &kp R                &kp T                        &kp Y  &kp U                 &kp I             &kp O       &kp P             &none
 &none  &kp A         &hm_l LALT S  &hm_l LCTRL D       &hm_shift_l LSHFT F  &kp G                        &kp H  &hm_shift_r RSHIFT J  &hm_r RCTRL K   &hm_r RALT L  &kp MINUS         &none
-&none  &hm_l LGUI Z  &kp X         &kp C               &kp V                &kp B  &kp C_MUTE  &mkp MB3  &kp N  &kp M                 &kp COMMA         &kp DOT     &hm_r RGUI SLASH  &none
+&none  &gui_l LGUI Z  &kp X         &kp C               &kp V                &kp B  &kp C_MUTE  &mkp MB3  &kp N  &kp M                 &kp COMMA         &kp DOT     &hm_r RGUI SLASH  &none
 &none  &none         &none         &lt 1 INT_MUHENKAN  &lt 2 SPACE          &none                        &none  &mo 3                 &lt 1 INT_HENKAN  &none       &none             &none
             >;
 
