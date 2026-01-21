@@ -135,7 +135,7 @@
             bindings = <&kp>, <&kp>;
 
             flavor = "tap-preferred";
-            tapping-term-ms = <320>;
+            tapping-term-ms = <300>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <90>;
             hold-trigger-key-positions = <KEYS_R KEYS_T>;
