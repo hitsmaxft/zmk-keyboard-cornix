@@ -227,10 +227,10 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&trans  &kp LS(NUMBER_1)                &kp LS(NUMBER_2)     &kp LS(NUMBER_3)      &kp LS(NUMBER_4)             &kp LS(NUMBER_5)                  &kp LS(NUMBER_6)   &kp LS(NUMBER_7)          &kp LS(NUMBER_8)                    &kp LS(NUMBER_9)        &kp JP_PIPE                &trans
-&trans  &little_finger_l LGUI NUMBER_1  &hm_l LALT NUMBER_2  &hm_l LCTRL NUMBER_3  &hm_shift_l LSHIFT NUMBER_4  &kp NUMBER_5                      &kp JP_UNDERSCORE  &hm_shift_r RSHIFT JP_AT  &little_finger_r RCTRL JP_LBRACKET  &hm_r RALT JP_RBRACKET  &little_finger_r JP_TILDE  &trans
-&none   &kp NUMBER_6                    &kp N7               &kp NUMBER_8          &kp NUMBER_9                 &kp NUMBER_0      &trans  &trans  &kp JP_PLUS        &kp JP_ASTERISK           &kp JP_LBRACE                       &kp JP_RBRACE           &kp RGUI JP_BACKQUOTE      &trans
-&none   &none                           &none                &lt 1 JP_CARET        &lt 2 JP_YEN                 &trans                            &trans             &lt 3 SEMICOLON           &lt 1 JP_COLON                      &none                   &none                      &none
+&trans  &kp LS(NUMBER_1)                &kp LS(NUMBER_2)     &kp LS(NUMBER_3)      &kp LS(NUMBER_4)             &kp LS(NUMBER_5)                  &kp LS(NUMBER_6)   &kp LS(NUMBER_7)          &kp LS(NUMBER_8)         &kp LS(NUMBER_9)        &kp JP_PIPE                     &trans
+&trans  &little_finger_l LGUI NUMBER_1  &hm_l LALT NUMBER_2  &hm_l LCTRL NUMBER_3  &hm_shift_l LSHIFT NUMBER_4  &kp NUMBER_5                      &kp JP_UNDERSCORE  &hm_shift_r RSHIFT JP_AT  &hm_r RCTRL JP_LBRACKET  &hm_r RALT JP_RBRACKET  &little_finger_r RGUI JP_TILDE  &trans
+&none   &kp NUMBER_6                    &kp N7               &kp NUMBER_8          &kp NUMBER_9                 &kp NUMBER_0      &trans  &trans  &kp JP_PLUS        &kp JP_ASTERISK           &kp JP_LBRACE            &kp JP_RBRACE           &kp JP_BACKQUOTE                &trans
+&none   &none                           &none                &lt 1 JP_CARET        &lt 2 JP_YEN                 &trans                            &trans             &lt 3 SEMICOLON           &lt 1 JP_COLON           &none                   &none                           &none
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
