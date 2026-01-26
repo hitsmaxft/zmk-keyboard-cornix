@@ -143,7 +143,7 @@
             hold-trigger-on-release;        
         };
 
-        little_finger_r: little_finger_l {
+        little_finger_r: little_finger_r {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             bindings = <&kp>, <&kp>;
