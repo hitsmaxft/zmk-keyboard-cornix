@@ -129,19 +129,34 @@
             hold-trigger-on-release;
         };
 
-        gui_l: gui_l {
+        little_finger_l: little_finger_l {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             bindings = <&kp>, <&kp>;
 
             flavor = "tap-preferred";
-            tapping-term-ms = <300>;
+            tapping-term-ms = <280>;
             quick-tap-ms = <200>;
             require-prior-idle-ms = <90>;
             hold-trigger-key-positions = <KEYS_R KEYS_T>;
 
             hold-trigger-on-release;        
         };
+
+        little_finger_r: little_finger_l {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <90>;
+            hold-trigger-key-positions = <KEYS_L KEYS_T>;
+
+            hold-trigger-on-release;        
+        };
+
 
         /*
          * Non-Positional Homerow Mods
@@ -192,10 +207,10 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&none  &kp Q         &kp W         &kp E               &kp R                &kp T                        &kp Y  &kp U                 &kp I             &kp O       &kp P             &none
-&none  &kp A         &hm_l LALT S  &hm_l LCTRL D       &hm_shift_l LSHFT F  &kp G                        &kp H  &hm_shift_r RSHIFT J  &hm_r RCTRL K   &hm_r RALT L  &kp MINUS         &none
-&none  &gui_l LGUI Z  &kp X         &kp C               &kp V                &kp B  &kp C_MUTE  &mkp MB3  &kp N  &kp M                 &kp COMMA         &kp DOT     &hm_r RGUI SLASH  &none
-&none  &none         &none         &lt 1 INT_MUHENKAN  &lt 2 SPACE          &none                        &none  &mo 3                 &lt 1 INT_HENKAN  &none       &none             &none
+&none  &kp Q                    &kp W         &kp E               &kp R                &kp T                        &kp Y  &kp U                 &kp I             &kp O         &kp P                        &none
+&none  &little_finger_l LGUI A  &hm_l LALT S  &hm_l LCTRL D       &hm_shift_l LSHFT F  &kp G                        &kp H  &hm_shift_r RSHIFT J  &hm_r RCTRL K     &hm_r RALT L  &little_finger_r RGUI MINUS  &none
+&none  &kp Z                    &kp X         &kp C               &kp V                &kp B  &kp C_MUTE  &mkp MB3  &kp N  &kp M                 &kp COMMA         &kp DOT       &kp SLASH                    &none
+&none  &none                    &none         &lt 1 INT_MUHENKAN  &lt 2 SPACE          &none                        &none  &mo 3                 &lt 1 INT_HENKAN  &none         &none                        &none
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -212,10 +227,10 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&trans  &kp   LS(NUMBER_1)   &kp LS(NUMBER_2)     &kp LS(NUMBER_3)      &kp LS(NUMBER_4)             &kp LS(NUMBER_5)                  &kp LS(NUMBER_6)   &kp LS(NUMBER_7)          &kp LS(NUMBER_8)         &kp LS(NUMBER_9)        &kp JP_PIPE              &trans
-&trans  &kp NUMBER_1         &hm_l LALT NUMBER_2  &hm_l LCTRL NUMBER_3  &hm_shift_l LSHIFT NUMBER_4  &kp NUMBER_5                      &kp JP_UNDERSCORE  &hm_shift_r RSHIFT JP_AT  &hm_r RCTRL JP_LBRACKET  &hm_r RALT JP_RBRACKET  &kp JP_TILDE             &trans
-&none   &hm_l LGUI NUMBER_6  &kp N7               &kp NUMBER_8          &kp NUMBER_9                 &kp NUMBER_0      &trans  &trans  &kp JP_PLUS        &kp JP_ASTERISK           &kp JP_LBRACE            &kp JP_RBRACE           &hm_r RGUI JP_BACKQUOTE  &trans
-&none   &none                &none                &lt 1 JP_CARET        &lt 2 JP_YEN                 &trans                            &trans             &lt 3 SEMICOLON           &lt 1 JP_COLON           &none                   &none                    &none
+&trans  &kp LS(NUMBER_1)                &kp LS(NUMBER_2)     &kp LS(NUMBER_3)      &kp LS(NUMBER_4)             &kp LS(NUMBER_5)                  &kp LS(NUMBER_6)   &kp LS(NUMBER_7)          &kp LS(NUMBER_8)                    &kp LS(NUMBER_9)        &kp JP_PIPE                &trans
+&trans  &little_finger_l LGUI NUMBER_1  &hm_l LALT NUMBER_2  &hm_l LCTRL NUMBER_3  &hm_shift_l LSHIFT NUMBER_4  &kp NUMBER_5                      &kp JP_UNDERSCORE  &hm_shift_r RSHIFT JP_AT  &little_finger_r RCTRL JP_LBRACKET  &hm_r RALT JP_RBRACKET  &little_finger_r JP_TILDE  &trans
+&none   &kp NUMBER_6                    &kp N7               &kp NUMBER_8          &kp NUMBER_9                 &kp NUMBER_0      &trans  &trans  &kp JP_PLUS        &kp JP_ASTERISK           &kp JP_LBRACE                       &kp JP_RBRACE           &kp RGUI JP_BACKQUOTE      &trans
+&none   &none                           &none                &lt 1 JP_CARET        &lt 2 JP_YEN                 &trans                            &trans             &lt 3 SEMICOLON           &lt 1 JP_COLON                      &none                   &none                      &none
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -234,8 +249,8 @@
 
             bindings = <
 &none  &bt BT_CLR_ALL  &bt BT_SEL 2  &bt BT_SEL 1  &bt BT_SEL 0  &none                    &kp INSERT     &kp PAGE_UP  &kp UP    &kp PAGE_DOWN  &none  &none
-&none  &none           &kp LALT      &kp LCTRL     &kp LSHFT     &kp TAB                  &kp BACKSPACE  &kp LEFT     &kp DOWN  &kp RIGHT      &none  &none
-&none  &kp LGUI        &kp LC(X)     &kp LC(C)     &kp LC(V)     &none    &trans  &trans  &kp DEL        &kp HOME     &none     &kp END        &none  &none
+&none  &kp LGUI        &kp LALT      &kp LCTRL     &kp LSHFT     &kp TAB                  &kp BACKSPACE  &kp LEFT     &kp DOWN  &kp RIGHT      &none  &none
+&none  &kp LC(Z)       &kp LC(X)     &kp LC(C)     &kp LC(V)     &none    &trans  &trans  &kp DEL        &kp HOME     &none     &kp END        &none  &none
 &none  &none           &none         &trans        &trans        &none                    &none          &lt 3 ENTER  &mo 1     &none          &none  &none
             >;
 
@@ -254,8 +269,8 @@
 
             bindings = <
 &none  &kp F1  &kp F2   &kp F3   &kp F4        &none                    &none  &none       &none      &none     &none     &none
-&none  &kp F5  &kp F6   &kp F7   &kp F8        &kp TAB                  &none  &kp RSHIFT  &kp RCTRL  &kp RALT  &none     &none
-&none  &kp F9  &kp F10  &kp F11  &kp F12       &none    &trans  &trans  &none  &none       &none      &none     &kp RGUI  &none
+&none  &kp F5  &kp F6   &kp F7   &kp F8        &kp TAB                  &none  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI  &none
+&none  &kp F9  &kp F10  &kp F11  &kp F12       &none    &trans  &trans  &none  &none       &none      &none     &none     &none
 &none  &none   &none    &mo 1    &lt 2 ESCAPE  &none                    &none  &trans      &trans     &none     &none     &none
             >;
 
