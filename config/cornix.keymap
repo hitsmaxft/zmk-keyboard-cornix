@@ -185,7 +185,8 @@
 
             flavor = "hold-preferred";
             tapping-term-ms = <HM_TAPPING_TERM>;
-            quick-tap-ms = <200>;
+            // quick-tap-ms = <200>;
+            quick-tap-ms = <0>;
         };
     };
 
