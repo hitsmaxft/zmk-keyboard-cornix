@@ -33,7 +33,7 @@
 #define KEYS_T LH1 LH0 RH0 RH1
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 15
 
-// OS設定を日本語キーボードのまま使用するための変換定義
+// 日本語キーボードのまま使用するための変換定義
 
 #define JP_DQUOTE       AT                // "
 #define JP_AMPERSAND    CARET             // &
