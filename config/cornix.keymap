@@ -9,13 +9,15 @@
 
 // tap windows for ctl alt and gui
 
-#define HM_TAPPING_TERM 250
+// #define HM_TAPPING_TERM 250
+#define HM_TAPPING_TERM 280
 #define HM_TAPPING_REPEAT 210
 
 // quick tapping for shift
 
 #define HM_TAPPING_TERM_FAST 190
-#define HM_PRIOR_IDLE 70
+// #define HM_PRIOR_IDLE 70
+#define HM_PRIOR_IDLE 150
 #define BASE 0
 #define WIN 1
 #define LOWER 2
@@ -134,10 +136,10 @@
             #binding-cells = <2>;
             bindings = <&kp>, <&kp>;
 
-            flavor = "tap-preferred";
+            flavor = "balanced";
             tapping-term-ms = <280>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <90>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
             hold-trigger-key-positions = <KEYS_R KEYS_T>;
 
             hold-trigger-on-release;        
@@ -148,10 +150,10 @@
             #binding-cells = <2>;
             bindings = <&kp>, <&kp>;
 
-            flavor = "tap-preferred";
+            flavor = "balanced";
             tapping-term-ms = <280>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <90>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
             hold-trigger-key-positions = <KEYS_L KEYS_T>;
 
             hold-trigger-on-release;        
