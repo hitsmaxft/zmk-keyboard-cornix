@@ -32,16 +32,25 @@
 	oled: sh1106@3c {
         compatible = "sinowealth,sh1106";
         reg = <0x3c>;
-        width = <129>;
         height = <64>;
-        segment-offset = <1>;
+
+        // old lvgl
+        //width = <129>;
+        //segment-offset = <1>;
+
+        //lvgl 9.x
+        width = <128>;
+        segment-offset = <2>;
+
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <63>;
-        segment-remap;
-        com-invdir;
         inversion-on;
         prechargep = <0x22>;
+
+        // comment to rotate 180
+        segment-remap;
+        com-invdir;
 	};
 };
 
