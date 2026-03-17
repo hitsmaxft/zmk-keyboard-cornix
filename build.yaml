@@ -13,7 +13,7 @@
 #
 ---
 include:
-  - board: nice_nano
+  - board: nice_nano//zmk
     shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
     snippet: studio-rpc-usb-uart nrf52840-nosd
     artifact-name: cornix_dongle_nosd
@@ -43,7 +43,7 @@ include:
     snippet: studio-rpc-usb-uart nrf52840-nosd
     artifact-name: cornix_reset
 
-  - board: nice_nano
+  - board: nice_nano//zmk
     shield: settings_reset
     snippet: studio-rpc-usb-uart nrf52840-nosd
     artifact-name: reset_nicenano_nosd
