@@ -1,4 +1,3 @@
-# test
 # ZMK Keyboard for Cornix
 
 ## Introduction to Boards and Shields
