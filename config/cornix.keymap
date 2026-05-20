@@ -6,9 +6,6 @@
 
 #include "zmk-helpers/helper.h"
 #include "includes/cornix54.h"
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/keys.h>
 
 // tap windows for ctl alt and gui
 
@@ -136,6 +133,16 @@
             tapping-term-ms = <HM_TAPPING_TERM>;
             quick-tap-ms = <200>;
         };
+
+        autoShift: autoShift {
+            compatible = "zmk,behavior-hold-tap";
+            label = "AUTOSHIFT";
+            bindings = <&kp>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <250>;
+            flavor = "tap-preferred";
+        };
     };
 
     conditional_layers {
@@ -193,11 +200,12 @@
             //               | GUI | ALT  | CTRL | LOWER|  ENTER |  | SPACE | RAISE| CTRL  | ALT   | GUI  |
 
             bindings = <
-&kp TAB  &kp Q          &kp W         &kp E         &kp R                &kp T                      &kp Y      &kp U                &kp I            &kp O         &kp P             &kp BSLH
-&kp ESC  &hm_l LCTRL A  &hm_l LALT S  &hm_l LGUI D  &hm_shift_l LSHFT F  &kp G                      &kp H      &hm_shift_r RSHFT J  &hm_r RGUI K     &hm_r RALT L  &hm_r RCTRL SEMI  &kp SQT
+&kp ESC  &kp Q          &kp W         &kp E         &kp R                &kp T                      &kp Y      &kp U                &kp I            &kp O         &kp P             &kp BSLH
+&kp TAB  &hm_l LCTRL A  &hm_l LALT S  &hm_l LGUI D  &hm_shift_l LSHFT F  &kp G                      &kp H      &hm_shift_r RSHFT J  &hm_r RGUI K     &hm_r RALT L  &hm_r RCTRL SEMI  &kp SQT
 &mo 4    &hm_l LGUI Z   &kp X         &kp C         &kp V                &kp B        &none  &none  &kp N      &kp M                &kp COMMA        &kp DOT       &kp FSLH          &kp BACKSPACE
 &none    &none          &none         &lt 6 ESCAPE  &mo 2                &lt 5 SPACE                &kp ENTER  &mo 3                &lt 2 BACKSPACE  &none         &none             &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -217,6 +225,7 @@
 &kp LGUI  &trans         &trans        &trans         &trans               &trans  &trans  &trans  &trans  &trans               &trans         &trans        &trans            &trans
 &none     &none          &none         &trans         &trans               &trans                  &trans  &trans               &trans         &none         &none             &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -237,6 +246,7 @@
 &none  &none     &kp RBKT  &kp RPAR  &kp PIPE  &kp BSLH   &trans  &trans  &kp FSLH   &kp QUESTION  &kp GRAVE  &kp TILDE  &kp SQT   &none
 &none  &none     &none     &none     &trans    &trans                     &kp TILDE  &trans        &kp GRAVE  &none      &none     &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -256,6 +266,7 @@
 &trans  &kp N6  &kp N7  &kp N8   &kp N9  &kp N0         &trans  &trans  &kp TAB   &kp INS    &kp HOME   &kp END   &trans   &trans
 &none   &none   &none   &kp TAB  &trans  &kp BACKSPACE                  &trans    &trans     &kp N3     &none     &none    &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
