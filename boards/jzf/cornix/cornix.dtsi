@@ -67,7 +67,7 @@
     };
 
     chosen {
-        zmk,bttery = &vbatt;
+        zmk,battery = &vbatt;
     };
 
 };
