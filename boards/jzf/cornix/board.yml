@@ -7,10 +7,11 @@ boards:
           - name: zmk
     revision:
       format: major.minor.patch
-      default: 1.1.0
+      default: 3.0.0
       revisions:
         - name: 1.0.0
         - name: 1.1.0
+        - name: 3.0.0
   - name: cornix_right
     vendor: jzf
     socs:
@@ -19,10 +20,11 @@ boards:
           - name: zmk
     revision:
       format: major.minor.patch
-      default: 1.1.0
+      default: 3.0.0
       revisions:
         - name: 1.0.0
         - name: 1.1.0
+        - name: 3.0.0
   - name: cornix_ph_left
     vendor: jzf
     socs:
@@ -31,7 +33,8 @@ boards:
           - name: zmk
     revision:
       format: major.minor.patch
-      default: 1.1.0
+      default: 3.0.0
       revisions:
         - name: 1.0.0
         - name: 1.1.0
+        - name: 3.0.0
