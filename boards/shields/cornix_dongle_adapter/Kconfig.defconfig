@@ -1,4 +1,29 @@
 if SHIELD_CORNIX_DONGLE_ADAPTER
-endif # END ALL
+
+config ZMK_KEYBOARD_NAME
+    default "Cornix Dongle"
+
+config ZMK_USB
+    default y
+
+config ZMK_BLE
+    default y
+
+config ZMK_SPLIT
+    default y
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+config ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_FETCHING
+    default y
+
+config ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_PROXY
+    default y
+
+config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
+    default 2
+
+endif # SHIELD_CORNIX_DONGLE_ADAPTER
 
 #vim: set ft=kconfig:
