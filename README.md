@@ -1,5 +1,7 @@
 # ZMK Keyboard for Cornix
 
+[日本語版 README（AI-generated）](./README_jp.md)
+
 > [!IMPORTANT]
 > **Zephyr 4.1 / ZMK main upgrade note**
 >
