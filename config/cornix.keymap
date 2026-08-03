@@ -140,15 +140,15 @@
             display-name = "Adjust";
 
             // -----------------------------------------------------------------------------------------
-            // | ___ | ___  | ___    | ___ | ___ | ___         |            | ___ | ___ | ___ | ___ | ___ | ___ |
-            // | BT0 | NXTBT| ___    | ___ | ___ | ___         |            | ___ | ___ | ___ | ___ | ___ | ___ |
-            // | BT1 | ___  | ___    | ___ | ___ | ___  | MUTE | MCLK       | ___ | ___ | ___ | ___ | ___ | ___ |
-            // | BT2 | ___  | ___    | ___ | ___ | ___         |            | ___ | ___ | ___ | ___ | ___ |
+            // | ___ | ___   | ___    | ___ | ___ | ___         |            | ___ | ___ | ___ | ___ | ___ | ___ |
+            // | BT0 | NXTBT | ___    | ___ | ___ | ___         |            | ___ | ___ | ___ | ___ | ___ | ___ |
+            // | BT1 | CLRBT | ___    | ___ | ___ | ___  | MUTE | MCLK       | ___ | ___ | ___ | ___ | ___ | ___ |
+            // | BT2 | ___   | ___    | ___ | ___ | ___         |            | ___ | ___ | ___ | ___ | ___ |
 
             bindings = <
-&none        &none     &none &none &none &none                       &none &none &none &none &none &none
+&none        &none      &none &none &none &none                       &none &none &none &none &none &none
 &bt BT_SEL 0 &bt BT_NXT &none &none &none &none                       &none &none &none &none &none &none
-&bt BT_SEL 1 &none      &none &none &none &none    &kp C_MUTE &mkp MCLK  &none &none &none &none &none &none
+&bt BT_SEL 1 &bt BT_CLR &none &none &none &none    &kp C_MUTE &mkp MCLK  &none &none &none &none &none &none
 &bt BT_SEL 2 &none      &none &none &none &none                       &none &none &none &none &none &none
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &mwheel>;
