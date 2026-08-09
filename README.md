@@ -1,5 +1,26 @@
 # ZMK Keyboard for Cornix
 
+[日本語版 README（AI-generated）](./README_jp.md)
+
+> [!IMPORTANT]
+> **Zephyr 4.1 / ZMK main upgrade note**
+>
+> This module targets the Zephyr 4.1-based ZMK main branch. If you are using this
+> module from an existing `zmk-config`, make sure your west manifest follows ZMK
+> `main` (or another Zephyr 4.1-compatible ZMK revision) before updating this
+> module.
+>
+> Zephyr 4.1 also introduces the qualified ZMK board target syntax. Prefer the
+> new `board//zmk` names for ZMK builds:
+>
+> - `cornix_left//zmk`
+> - `cornix_right//zmk`
+> - `cornix_ph_left//zmk`
+> - `nice_nano//zmk` for dongle / reset builds
+>
+> The older unqualified names are kept for compatibility, but new build configs
+> should use the qualified board names above.
+
 ## Introduction to Boards and Shields
 
 This repository contains the ZMK firmware configuration for the Cornix split keyboard. Below is an explanation of the different boards and shields available in this project:
