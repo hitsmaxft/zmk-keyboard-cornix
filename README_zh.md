@@ -1,5 +1,12 @@
 # ZMK Keyboard Cornix
 
+## Zephyr 4.1 升级记录
+
+Zephyr 4.1 已不再把 `sys_reboot()` 的参数写入 nRF52 `GPREGRET` 寄存器。Cornix
+开发板现引入 ZMK 的 `nrf52840_uf2_boot_mode.dtsi`，启用 retention boot-mode API，
+并将 `&bootloader` 映射为 Adafruit nRF52 UF2 所需的 magic value `0x57`。若无此迁移，
+按下 `&bootloader` 只会普通重启，无法进入 UF2 bootloader。
+
 ## 开发板和扩展板介绍
 
 本仓库包含用于 Cornix 分体式键盘的 ZMK 固件配置。以下是该项目中可用的不同开发板和扩展板的说明：

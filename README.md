@@ -18,6 +18,12 @@
 > - `cornix_ph_left//zmk`
 > - `nice_nano//zmk` for dongle / reset builds
 >
+> Zephyr 4.1 no longer stores the argument to `sys_reboot()` in the nRF52
+> `GPREGRET` register. Cornix boards therefore include ZMK's
+> `nrf52840_uf2_boot_mode.dtsi`, which enables the retention boot-mode API and
+> maps `&bootloader` to the Adafruit nRF52 UF2 magic value (`0x57`). Without
+> this migration, invoking `&bootloader` only performs a normal reboot.
+>
 > The older unqualified names are kept for compatibility, but new build configs
 > should use the qualified board names above.
 
