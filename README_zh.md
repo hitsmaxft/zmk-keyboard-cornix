@@ -7,6 +7,44 @@ Zephyr 4.1 已不再把 `sys_reboot()` 的参数写入 nRF52 `GPREGRET` 寄存�
 并将 `&bootloader` 映射为 Adafruit nRF52 UF2 所需的 magic value `0x57`。若无此迁移，
 按下 `&bootloader` 只会普通重启，无法进入 UF2 bootloader。
 
+### Zephyr 4.1 前置迁移（2025-12-22 至 2025-12-23）
+
+下游配置仓库以三个提交完成切换 ZMK `main` 的前置兼容工作；此阶段早于后续 Zephyr
+4.1 专项修复：
+
+1. `2cb3502`（2025-12-22）将 ZMK 基线由 `v0.3.0` 切至 `main`，
+   `zmk-dongle-display` 由 `main` 切至 `zephyr4`，Cornix 模块由 `dev` 切至
+   `zephyr4`，并将全仓 `nice_nano_v2` 统一改为 `nice_nano`；同时注释禁用了当时
+   不兼容的 RGB/status/GPIO/dongle screen、Tako、Snake、Prospector 等模块。
+2. `cc3ff97`（2025-12-23）修正 Cornix eyelash 的 SH1106 overlay：`width` 由
+   `129` 改为 `128`，`segment-offset` 由 `1` 改为 `2`，以适配新版 LVGL。
+3. `932da8f`（2025-12-23）为 `dongle_oled_sh1106.overlay` 同步
+   `width = 128`、`segment-offset = 2`，并将 Velvet dongle 错挂的
+   `cornix_dongle_eyelash` shield 改为正确的 `dongle_oled_sh1106`。
+
+此阶段解决 ZMK 基线、`nice_nano_v2` 废弃、模块分支、LVGL SH1106 参数及 Velvet
+overlay 选择问题；它是迁移前置条件，并不证明后续 Zephyr 4.1 的 settings 与
+bootloader 契约已正确。
+
+### nice!nano 板型限定与持久化设置
+
+Zephyr 4.1 下，未限定的 `board: nice_nano` 会加载通用 defconfig，生成
+`CONFIG_SETTINGS_NONE=y`。固件因而每次启动皆创建新蓝牙身份，不能复用已存储的
+split bond，最终触发 SMP 认证失败。下游 `issues.md` 已记录 `pairing failed (peer
+reason 0x3)`、`No ID address. App must call settings_load()`、`Unable to store name`
+及 `Failed to save Database Hash (err -2)`。
+
+下游提交 `91d0dd2` 将 Velvet dongle 改为 `nice_nano//zmk`，并启用 BLE
+Management、Battery History、Settings RPC、Runtime Input Processor 四项 DYA 扩展；
+提交 `bb552ac` 则为 Cornix dongle、`cornix_ph_left`、`cornix_left`、
+`cornix_right` 四目标补全 `//zmk` 限定符。
+
+编译通过不等于配置正确。每次迁移 Zephyr 4.1 板型后，必须检查
+`.build/{artifact}/zephyr/.config`：目标须为
+`CONFIG_BOARD_TARGET="nice_nano@2.0.0/nrf52840/zmk"`，须有 `CONFIG_NVS=y` 与
+`CONFIG_SETTINGS_NVS=y`，且不得出现 `CONFIG_SETTINGS_NONE=y`。故 Zephyr 4.1 下，
+所有 nice!nano 目标皆须使用 `nice_nano//zmk`。
+
 ## 开发板和扩展板介绍
 
 本仓库包含用于 Cornix 分体式键盘的 ZMK 固件配置。以下是该项目中可用的不同开发板和扩展板的说明：
@@ -215,25 +253,25 @@ west update
 ```yaml
 include:
   # 使用带适配器的 cornix
-  - board: nice_nano
+  - board: nice_nano//zmk
     shield: cornix_dongle_adaptor cornix_dongle_eyelash dongle_display
     snippet: studio-rpc-usb-uart
     artifact-name: cornix_dongle
 
-  - board: cornix_ph_left
+  - board: cornix_ph_left//zmk
     # shield: cornix_indicator
     artifact-name: cornix_left_for_dongle
 
   # 使用不带适配器的 cornix
-  - board: cornix_left
+  - board: cornix_left//zmk
     # shield: cornix_indicator
     artifact-name: cornix_left
 
-  - board: cornix_right
+  - board: cornix_right//zmk
     # shield: cornix_indicator
     artifact-name: cornix_right
 
-  - board: cornix_right
+  - board: cornix_right//zmk
     shield: settings_reset
     artifact-name: reset
 ```
@@ -266,7 +304,7 @@ include:
 ```yaml
 include:
   # 使用带适配器的 cornix
-  - board: nice_nano
+  - board: nice_nano//zmk
     shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
     snippet: studio-rpc-usb-uart
     artifact-name: cornix_dongle
@@ -281,7 +319,7 @@ include:
 对于自定义适配器屏幕，在 build.yaml 中为您的自定义适配器添加新目标：
 
 ```yaml
-- board: nice_nano
+- board: nice_nano//zmk
   shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
   snippet: studio-rpc-usb-uart zmk-usb-logging
   artifact-name: cornix_dongle
@@ -348,8 +386,8 @@ projects:
 
 3. **构建固件**：
    ```bash
-   west build -b cornix_left
-   west build -b cornix_right
+   west build -b cornix_left//zmk
+   west build -b cornix_right//zmk
    ```
 
 此方法允许您使用 Cornix 扩展板而不修改您现有 ZMK 配置的 west.yaml 文件。

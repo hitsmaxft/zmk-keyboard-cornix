@@ -27,6 +27,50 @@
 > The older unqualified names are kept for compatibility, but new build configs
 > should use the qualified board names above.
 
+### Pre-Zephyr 4.1 migration groundwork (2025-12-22 to 2025-12-23)
+
+Three downstream configuration commits prepared the move to ZMK `main` before
+the later Zephyr 4.1-specific fixes:
+
+1. `2cb3502` (2025-12-22) changed the ZMK baseline from `v0.3.0` to `main`,
+   moved `zmk-dongle-display` from `main` to `zephyr4`, moved this Cornix module
+   from `dev` to `zephyr4`, and replaced every `nice_nano_v2` build target with
+   `nice_nano`. It also disabled the then-incompatible RGB/status/GPIO/dongle
+   screen, Tako, Snake, and Prospector modules.
+2. `cc3ff97` (2025-12-23) adapted the Cornix eyelash SH1106 overlay to the new
+   LVGL requirements by changing `width` from `129` to `128` and
+   `segment-offset` from `1` to `2`.
+3. `932da8f` (2025-12-23) applied `width = 128` and `segment-offset = 2` to
+   `dongle_oled_sh1106.overlay`, then replaced the incorrectly selected Cornix
+   eyelash shield on the Velvet dongle with `dongle_oled_sh1106`.
+
+Together these commits moved ZMK `v0.3.0` to `main`, retired `nice_nano_v2`,
+selected Zephyr 4-compatible module branches, adapted SH1106 geometry for the
+new LVGL, and corrected the Velvet display overlay. They are migration
+prerequisites, not proof that the later Zephyr 4.1 settings and bootloader
+contracts were already correct.
+
+### Zephyr 4.1 upgrade record: qualified board targets
+
+The `nice_nano` qualifier is functionally significant under Zephyr 4.1. An
+unqualified `board: nice_nano` selects the generic defconfig and may produce
+`CONFIG_SETTINGS_NONE=y`. The firmware then creates a new Bluetooth identity on
+every boot, cannot reuse stored split bonds, and ultimately fails SMP
+authentication. A downstream `issues.md` recorded `pairing failed (peer reason
+0x3)`, `No ID address. App must call settings_load()`, `Unable to store name`,
+and `Failed to save Database Hash (err -2)`.
+
+Downstream commit `91d0dd2` changed the Velvet dongle to `nice_nano//zmk` and
+enabled all four DYA extensions: BLE Management, Battery History, Settings RPC,
+and Runtime Input Processor. Commit `bb552ac` qualified the Cornix dongle,
+`cornix_ph_left`, `cornix_left`, and `cornix_right` targets with `//zmk`.
+
+Compilation alone is insufficient validation. After every Zephyr 4.1 board
+migration, inspect `.build/{artifact}/zephyr/.config`: the nice!nano target must
+be `nice_nano@2.0.0/nrf52840/zmk`, `CONFIG_NVS=y` and
+`CONFIG_SETTINGS_NVS=y` must be present, and `CONFIG_SETTINGS_NONE=y` must not
+be present. Use `nice_nano//zmk` for every Zephyr 4.1 nice!nano target.
+
 ## Introduction to Boards and Shields
 
 This repository contains the ZMK firmware configuration for the Cornix split keyboard. Below is an explanation of the different boards and shields available in this project:
@@ -240,25 +284,25 @@ Edit the `build.yaml` file, add:
 ```yaml
 include:
   # Use cornix with dongle
-  - board: nice_nano
+  - board: nice_nano//zmk
     shield: cornix_dongle_adaptor cornix_dongle_eyelash dongle_display
     snippet: studio-rpc-usb-uart
     artifact-name: cornix_dongle
 
-  - board: cornix_ph_left
+  - board: cornix_ph_left//zmk
     # shield: cornix_indicator
     artifact-name: cornix_left_for_dongle
 
   # Use cornix without dongle
-  - board: cornix_left
+  - board: cornix_left//zmk
     # shield: cornix_indicator
     artifact-name: cornix_left
 
-  - board: cornix_right
+  - board: cornix_right//zmk
     # shield: cornix_indicator
     artifact-name: cornix_right
 
-  - board: cornix_right
+  - board: cornix_right//zmk
     shield: settings_reset
     artifact-name: reset
 ```
@@ -290,7 +334,7 @@ The configuration in the `build.yaml` file shows how to use these shields for th
 ```yaml
 include:
   # Use cornix with dongle
-  - board: nice_nano
+  - board: nice_nano//zmk
     shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
     snippet: studio-rpc-usb-uart
     artifact-name: cornix_dongle
@@ -304,7 +348,7 @@ To create a custom shield for the display part:
 
 For custom dongle screens, add a new target in build.yaml for your custom dongle:
 ```yaml
-- board: nice_nano
+- board: nice_nano//zmk
   shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
   snippet: studio-rpc-usb-uart zmk-usb-logging
   artifact-name: cornix_dongle
@@ -369,12 +413,8 @@ If you prefer to build this project locally without adding it as a dependency in
 
 3. **Build the firmware**:
    ```bash
-<<<<<<< HEAD
-   west build -b cornix_main_left
-=======
-   west build -b cornix_left
->>>>>>> 16dcccb (migrate to zephyr4 , disable dongle screen)
-   west build -b cornix_right
+   west build -b cornix_left//zmk
+   west build -b cornix_right//zmk
    ```
 
 This method allows you to use the Cornix shield without modifying your existing ZMK configuration's west.yaml file.
