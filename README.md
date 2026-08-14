@@ -2,6 +2,8 @@
 
 [日本語版 README（AI-generated）](./README_jp.md)
 
+**Current Cornix board revision:** `3.0.0`
+
 > [!IMPORTANT]
 > **Zephyr 4.1 / ZMK main upgrade note**
 >
@@ -18,8 +20,58 @@
 > - `cornix_ph_left//zmk`
 > - `nice_nano//zmk` for dongle / reset builds
 >
+> Zephyr 4.1 no longer stores the argument to `sys_reboot()` in the nRF52
+> `GPREGRET` register. Cornix boards therefore include ZMK's
+> `nrf52840_uf2_boot_mode.dtsi`, which enables the retention boot-mode API and
+> maps `&bootloader` to the Adafruit nRF52 UF2 magic value (`0x57`). Without
+> this migration, invoking `&bootloader` only performs a normal reboot.
+>
 > The older unqualified names are kept for compatibility, but new build configs
 > should use the qualified board names above.
+
+### Pre-Zephyr 4.1 migration groundwork (2025-12-22 to 2025-12-23)
+
+Three downstream configuration commits prepared the move to ZMK `main` before
+the later Zephyr 4.1-specific fixes:
+
+1. `2cb3502` (2025-12-22) changed the ZMK baseline from `v0.3.0` to `main`,
+   moved `zmk-dongle-display` from `main` to `zephyr4`, moved this Cornix module
+   from `dev` to `zephyr4`, and replaced every `nice_nano_v2` build target with
+   `nice_nano`. It also disabled the then-incompatible RGB/status/GPIO/dongle
+   screen, Tako, Snake, and Prospector modules.
+2. `cc3ff97` (2025-12-23) adapted the Cornix eyelash SH1106 overlay to the new
+   LVGL requirements by changing `width` from `129` to `128` and
+   `segment-offset` from `1` to `2`.
+3. `932da8f` (2025-12-23) applied `width = 128` and `segment-offset = 2` to
+   `dongle_oled_sh1106.overlay`, then replaced the incorrectly selected Cornix
+   eyelash shield on the Velvet dongle with `dongle_oled_sh1106`.
+
+Together these commits moved ZMK `v0.3.0` to `main`, retired `nice_nano_v2`,
+selected Zephyr 4-compatible module branches, adapted SH1106 geometry for the
+new LVGL, and corrected the Velvet display overlay. They are migration
+prerequisites, not proof that the later Zephyr 4.1 settings and bootloader
+contracts were already correct.
+
+### Zephyr 4.1 upgrade record: qualified board targets
+
+The `nice_nano` qualifier is functionally significant under Zephyr 4.1. An
+unqualified `board: nice_nano` selects the generic defconfig and may produce
+`CONFIG_SETTINGS_NONE=y`. The firmware then creates a new Bluetooth identity on
+every boot, cannot reuse stored split bonds, and ultimately fails SMP
+authentication. A downstream `issues.md` recorded `pairing failed (peer reason
+0x3)`, `No ID address. App must call settings_load()`, `Unable to store name`,
+and `Failed to save Database Hash (err -2)`.
+
+Downstream commit `91d0dd2` changed the Velvet dongle to `nice_nano//zmk` and
+enabled all four DYA extensions: BLE Management, Battery History, Settings RPC,
+and Runtime Input Processor. Commit `bb552ac` qualified the Cornix dongle,
+`cornix_ph_left`, `cornix_left`, and `cornix_right` targets with `//zmk`.
+
+Compilation alone is insufficient validation. After every Zephyr 4.1 board
+migration, inspect `.build/{artifact}/zephyr/.config`: the nice!nano target must
+be `nice_nano@2.0.0/nrf52840/zmk`, `CONFIG_NVS=y` and
+`CONFIG_SETTINGS_NVS=y` must be present, and `CONFIG_SETTINGS_NONE=y` must not
+be present. Use `nice_nano//zmk` for every Zephyr 4.1 nice!nano target.
 
 ## Introduction to Boards and Shields
 
@@ -39,7 +91,7 @@ The project includes several specialized shields that provide additional functio
 
 - **`cornix_dongle_adapter`**: Provides common functionality for the matrix and Bluetooth functionality for dongle configurations. This shield is required when using the Cornix with a custom dongle.
 - **`cornix_dongle_eyelash`**: An example shield for setting up display device for the dongle board. This is used when the board doesn't already have `zephyr,display` in the device tree.
-- **`cornix_indicator`**: A shield that enables RGB LED indicators for battery status and connection status. Note that using this shield consumes more power.
+- **`cornix_indicator`**: Enables the two RGB LEDs on each half for battery and connection status. Version 3.0.0 defaults its external-power idle timeout to 1000 ms to reduce idle power consumption; illuminated LEDs still consume additional power.
 
 ---
 
@@ -69,16 +121,21 @@ you have two solutions
 - [x] no-SD image, since v2.3
 - [x] support various of dongles
 - [x] upgrade to zephyr4.1 and lvgl9 , since v2.7, no dongle screen support yet
-- [ ] rgb since in future v3
+- [x] RGB battery and connection indicators via `cornix_indicator`, since v3.0.0
 
 
 ### about RGB
 
-Cornix shield has 2 RGB LEDs on each side, controled by PWM in the stock firmware.
+Version 3.0.0 supports the two RGB LEDs on each half through the optional
+`cornix_indicator` shield and `zmk-rgbled-widget`. The indicators display
+battery and split-connection status.
 
-The replacement solution is adapting the RGB indicator module to light up these RGBs, to achieve the same effect as the stock firmware, which uses the RGB LEDs to indicate battery status and connection status.
-
-But it is not supported yet in this repository.  PR is welcome!
+To reduce idle consumption, the shield sets
+`CONFIG_RGBLED_WIDGET_EXT_POWER_TIMEOUT_MS=1000`. After all animations finish
+and no static indicator remains lit, the widget waits 1000 ms and then turns
+off the WS2812 external-power rail. This overrides the widget's 15000 ms
+default; it does not turn off LEDs that are intentionally kept lit. Users may
+override the value in their own `.conf`.
 
 ## Supported Hardware: Cornix Split Keyboard
 
@@ -229,30 +286,30 @@ Edit the `build.yaml` file, add:
 > [!NOTE]
 > 1. If you are using (default) cornix without dongle, choose "cornix_left", "cornix_right" and "reset".
 > 2. If you are using cornix with dongle, choose "cornix_dongle". "cornix_left_for_dongle", "cornix_right" and "reset".
-> 3. Add "cornix_indicator" shield to enable RGB led light. It consumes much more power, use at your own risk.
+> 3. Add `cornix_indicator` to enable RGB battery/connection indicators. Its 1000 ms idle power-off default reduces standby draw, but illuminated LEDs still consume additional power.
 
 ```yaml
 include:
   # Use cornix with dongle
-  - board: nice_nano
+  - board: nice_nano//zmk
     shield: cornix_dongle_adaptor cornix_dongle_eyelash dongle_display
     snippet: studio-rpc-usb-uart
     artifact-name: cornix_dongle
 
-  - board: cornix_ph_left
+  - board: cornix_ph_left//zmk
     # shield: cornix_indicator
     artifact-name: cornix_left_for_dongle
 
   # Use cornix without dongle
-  - board: cornix_left
+  - board: cornix_left//zmk
     # shield: cornix_indicator
     artifact-name: cornix_left
 
-  - board: cornix_right
+  - board: cornix_right//zmk
     # shield: cornix_indicator
     artifact-name: cornix_right
 
-  - board: cornix_right
+  - board: cornix_right//zmk
     shield: settings_reset
     artifact-name: reset
 ```
@@ -284,7 +341,7 @@ The configuration in the `build.yaml` file shows how to use these shields for th
 ```yaml
 include:
   # Use cornix with dongle
-  - board: nice_nano
+  - board: nice_nano//zmk
     shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
     snippet: studio-rpc-usb-uart
     artifact-name: cornix_dongle
@@ -298,7 +355,7 @@ To create a custom shield for the display part:
 
 For custom dongle screens, add a new target in build.yaml for your custom dongle:
 ```yaml
-- board: nice_nano
+- board: nice_nano//zmk
   shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
   snippet: studio-rpc-usb-uart zmk-usb-logging
   artifact-name: cornix_dongle
@@ -363,12 +420,8 @@ If you prefer to build this project locally without adding it as a dependency in
 
 3. **Build the firmware**:
    ```bash
-<<<<<<< HEAD
-   west build -b cornix_main_left
-=======
-   west build -b cornix_left
->>>>>>> 16dcccb (migrate to zephyr4 , disable dongle screen)
-   west build -b cornix_right
+   west build -b cornix_left//zmk
+   west build -b cornix_right//zmk
    ```
 
 This method allows you to use the Cornix shield without modifying your existing ZMK configuration's west.yaml file.
