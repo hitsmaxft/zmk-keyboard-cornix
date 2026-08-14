@@ -1,5 +1,7 @@
 # ZMK Keyboard Cornix
 
+**当前 Cornix 板卡版本：** `3.0.0`
+
 ## Zephyr 4.1 升级记录
 
 Zephyr 4.1 已不再把 `sys_reboot()` 的参数写入 nRF52 `GPREGRET` 寄存器。Cornix
@@ -63,7 +65,7 @@ Management、Battery History、Settings RPC、Runtime Input Processor 四项 DYA
 
 - **`cornix_dongle_adapter`**: 为适配器配置提供矩阵和蓝牙功能的通用功能。在使用带有自定义适配器的 Cornix 时需要此扩展板。
 - **`cornix_dongle_eyelash`**: 用于为适配器板设置显示设备的示例扩展板。当板子本身没有在设备树中包含 `zephyr,display` 时使用此扩展板。
-- **`cornix_indicator`**: 启用 RGB LED 指示灯以显示电池状态和连接状态的扩展板。注意使用此扩展板会消耗更多电量。
+- **`cornix_indicator`**: 启用每侧两颗 RGB LED，以显示电池与连接状态。3.0.0 默认将外部供电空闲超时设为 1000 ms，以降低待机功耗；灯亮时仍会增加耗电。
 
 ---
 
@@ -90,15 +92,17 @@ Management、Battery History、Settings RPC、Runtime Input Processor 四项 DYA
 - [x] 无 SD 镜像，自 v2.3
 - [x] 支持各种适配器
 - [x] 升级到 zephyr4.1 和 lvgl9，自 v2.7，暂不支持适配器屏幕
-- [ ] RGB，将在未来 v3 中支持
+- [x] 通过 `cornix_indicator` 支持 RGB 电量与连接状态指示，自 v3.0.0
 
 ### 关于 RGB
 
-Cornix 扩展板每侧有 2 个 RGB LED，由 PWM 在原始固件中控制。
+3.0.0 通过可选的 `cornix_indicator` shield 与 `zmk-rgbled-widget`，支持 Cornix
+每侧两颗 RGB LED，用于显示电量与分体连接状态。
 
-替代解决方案是采用 RGB 指示模块来点亮这些 RGB，以实现与原始固件相同的效果，原始固件使用 RGB LED 来指示电池状态和连接状态。
-
-但此功能尚未在此仓库中支持。欢迎提交 PR！
+为降低空闲功耗，shield 默认设置
+`CONFIG_RGBLED_WIDGET_EXT_POWER_TIMEOUT_MS=1000`。动画结束且无常亮指示后，
+widget 等待 1000 ms 即关闭 WS2812 外部供电；此值覆盖 widget 原有的 15000 ms
+默认值，但不会关闭刻意保持点亮的 LED。使用者可在自身 `.conf` 中覆盖此值。
 
 ## 支持的硬件：Cornix 分体式键盘
 
@@ -248,7 +252,7 @@ west update
 > [!NOTE]
 > 1. 如果您使用（默认）无适配器的 cornix，请选择 "cornix_left"、"cornix_right" 和 "reset"。
 > 2. 如果您将 cornix 与适配器一起使用，请选择 "cornix_dongle"。"cornix_left_for_dongle"、"cornix_right" 和 "reset"。
-> 3. 添加 "cornix_indicator" 扩展板以启用 RGB led 灯。它消耗更多电量，使用风险自负。
+> 3. 添加 `cornix_indicator` 以启用 RGB 电量/连接状态指示。默认空闲 1000 ms 后断开 LED 外部供电，以降低待机功耗；灯亮时仍会增加耗电。
 
 ```yaml
 include:

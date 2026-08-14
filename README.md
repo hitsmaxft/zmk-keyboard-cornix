@@ -2,6 +2,8 @@
 
 [日本語版 README（AI-generated）](./README_jp.md)
 
+**Current Cornix board revision:** `3.0.0`
+
 > [!IMPORTANT]
 > **Zephyr 4.1 / ZMK main upgrade note**
 >
@@ -89,7 +91,7 @@ The project includes several specialized shields that provide additional functio
 
 - **`cornix_dongle_adapter`**: Provides common functionality for the matrix and Bluetooth functionality for dongle configurations. This shield is required when using the Cornix with a custom dongle.
 - **`cornix_dongle_eyelash`**: An example shield for setting up display device for the dongle board. This is used when the board doesn't already have `zephyr,display` in the device tree.
-- **`cornix_indicator`**: A shield that enables RGB LED indicators for battery status and connection status. Note that using this shield consumes more power.
+- **`cornix_indicator`**: Enables the two RGB LEDs on each half for battery and connection status. Version 3.0.0 defaults its external-power idle timeout to 1000 ms to reduce idle power consumption; illuminated LEDs still consume additional power.
 
 ---
 
@@ -119,16 +121,21 @@ you have two solutions
 - [x] no-SD image, since v2.3
 - [x] support various of dongles
 - [x] upgrade to zephyr4.1 and lvgl9 , since v2.7, no dongle screen support yet
-- [ ] rgb since in future v3
+- [x] RGB battery and connection indicators via `cornix_indicator`, since v3.0.0
 
 
 ### about RGB
 
-Cornix shield has 2 RGB LEDs on each side, controled by PWM in the stock firmware.
+Version 3.0.0 supports the two RGB LEDs on each half through the optional
+`cornix_indicator` shield and `zmk-rgbled-widget`. The indicators display
+battery and split-connection status.
 
-The replacement solution is adapting the RGB indicator module to light up these RGBs, to achieve the same effect as the stock firmware, which uses the RGB LEDs to indicate battery status and connection status.
-
-But it is not supported yet in this repository.  PR is welcome!
+To reduce idle consumption, the shield sets
+`CONFIG_RGBLED_WIDGET_EXT_POWER_TIMEOUT_MS=1000`. After all animations finish
+and no static indicator remains lit, the widget waits 1000 ms and then turns
+off the WS2812 external-power rail. This overrides the widget's 15000 ms
+default; it does not turn off LEDs that are intentionally kept lit. Users may
+override the value in their own `.conf`.
 
 ## Supported Hardware: Cornix Split Keyboard
 
@@ -279,7 +286,7 @@ Edit the `build.yaml` file, add:
 > [!NOTE]
 > 1. If you are using (default) cornix without dongle, choose "cornix_left", "cornix_right" and "reset".
 > 2. If you are using cornix with dongle, choose "cornix_dongle". "cornix_left_for_dongle", "cornix_right" and "reset".
-> 3. Add "cornix_indicator" shield to enable RGB led light. It consumes much more power, use at your own risk.
+> 3. Add `cornix_indicator` to enable RGB battery/connection indicators. Its 1000 ms idle power-off default reduces standby draw, but illuminated LEDs still consume additional power.
 
 ```yaml
 include:
