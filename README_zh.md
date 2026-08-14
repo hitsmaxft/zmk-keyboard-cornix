@@ -1,5 +1,7 @@
 # ZMK Keyboard Cornix
 
+[在线文档：English / 简体中文](https://hitsmaxft.github.io/zmk-keyboard-cornix/)
+
 **当前 Cornix 板卡版本：** `3.0.0`
 
 ## Zephyr 4.1 升级记录

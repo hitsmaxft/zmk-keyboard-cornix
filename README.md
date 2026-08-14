@@ -2,6 +2,8 @@
 
 [日本語版 README（AI-generated）](./README_jp.md)
 
+[Documentation site: English / 简体中文](https://hitsmaxft.github.io/zmk-keyboard-cornix/)
+
 **Current Cornix board revision:** `3.0.0`
 
 > [!IMPORTANT]
