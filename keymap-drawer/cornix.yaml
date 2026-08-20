@@ -35,8 +35,8 @@ layers:
   - ''
   - N
   - M
-  - {t: ',', h: Navi}
-  - .
+  - ','
+  - {t: ., h: Navi}
   - /
   - '-'
   - {t: ▽, type: trans}
@@ -259,8 +259,8 @@ layers:
   - ''
   - Ctl+Sft+TAB
   - Ctl+TAB
-  - DELETE
   - BACKSPACE
+  - DELETE
   - ''
   - {t: ▽, type: trans}
   - ''
@@ -289,9 +289,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - '&mkp MB1'
+  - '&mkp MB1'
   - '&mkp MB2'
-  - {t: '&mkp MB3', type: held}
-  - ''
+  - {type: held}
   - ''
   - ''
   - ''
@@ -334,6 +334,6 @@ combos:
 - p: [2, 3]
   k: TAB
   l: [Base]
-- p: [32, 33]
+- p: [34, 33]
   k: '&mkp MB3'
   l: [Navi]
