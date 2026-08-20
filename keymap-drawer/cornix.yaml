@@ -35,7 +35,7 @@ layers:
   - ''
   - N
   - M
-  - ','
+  - {t: ',', h: Navi}
   - .
   - /
   - '-'
@@ -290,14 +290,14 @@ layers:
   - {t: ▽, type: trans}
   - '&mkp MB1'
   - '&mkp MB2'
-  - '&mkp MB3'
+  - {t: '&mkp MB3', type: held}
   - ''
   - ''
   - ''
   - ''
   - ''
   - ''
-  - {type: held}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - '&mkp MB1'
@@ -334,3 +334,6 @@ combos:
 - p: [2, 3]
   k: TAB
   l: [Base]
+- p: [32, 33]
+  k: '&mkp MB3'
+  l: [Navi]
