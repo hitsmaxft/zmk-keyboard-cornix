@@ -248,7 +248,7 @@
 
         middleclick {
             bindings = <&mkp MB3>;
-            key-positions = <32 33>;
+            key-positions = <34 33>;
             layers = <5>;
             timeout-ms = <30>;
         };
@@ -270,7 +270,7 @@
             bindings = <
 &kp TAB  &kp Q          &kp W             &kp E                 &kp R                &kp T                     &kp Y  &kp U                &kp I                  &kp O              &kp P             &kp BACKSPACE
 &none    &hm_l LCTRL A  &hm_l LALT S      &hm_l LEFT_COMMAND D  &hm_shift_l LSHFT F  &kp G                     &kp H  &hm_shift_r RSHFT J  &hm_r RIGHT_COMMAND K  &hm_r RALT L       &hm_r RCTRL SEMI  &kp ENTER
-&none    &kp Z          &kp X             &kp C                 &kp V                &kp B  &kp C_MUTE  &none  &kp N  &kp M                &lt 5 COMMA            &kp PERIOD         &kp SLASH         &kp MINUS
+&none    &kp Z          &kp X             &kp C                 &kp V                &kp B  &kp C_MUTE  &none  &kp N  &kp M                &kp COMMA              &lt 5 PERIOD       &kp SLASH         &kp MINUS
 &trans   &kp LEFT_ALT   &kp LEFT_COMMAND  &lt 5 LANG2           &lt 1 SPACE          &mo 2                     &mo 5  &lt 1 SPACE          &lt 2 LANG1            &kp RIGHT_COMMAND  &kp RIGHT_ALT     &mo 4
             >;
 
@@ -350,10 +350,10 @@
         Navi_layer {
             display-name = "Navi";
             bindings = <
-&none  &kp LC(LS(TAB))  &kp LC(TAB)  &kp DELETE  &kp BACKSPACE  &none                   &trans    &none     &none     &none      &none      &none
-&none  &trans           &trans       &mkp MB2    &mkp MB1       &trans                  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &kp RCTRL  &none
-&none  &none            &none        &none       &none          &trans  &trans  &trans  &mkp MB1  &mkp MB2  &mkp MB3  &none      &none      &none
-&none  &none            &none        &trans      &trans         &trans                  &mkp MB1  &mkp MB2  &kp N5    &none      &none      &none
+&none  &kp LC(LS(TAB))  &kp LC(TAB)  &kp BACKSPACE  &kp DELETE  &none                   &trans    &none     &none     &none      &none      &none
+&none  &trans           &trans       &mkp MB2       &mkp MB1    &trans                  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &kp RCTRL  &none
+&none  &none            &none        &none          &none       &trans  &trans  &trans  &mkp MB1  &mkp MB1  &mkp MB2  &none      &none      &none
+&none  &none            &none        &trans         &trans      &trans                  &mkp MB1  &mkp MB2  &kp N5    &none      &none      &none
             >;
         };
     };
