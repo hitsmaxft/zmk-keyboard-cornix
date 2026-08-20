@@ -352,8 +352,8 @@
             bindings = <
 &none  &kp LC(LS(TAB))  &kp LC(TAB)  &kp BACKSPACE  &kp DELETE  &none                   &trans    &none     &none     &none      &none      &none
 &none  &trans           &trans       &mkp MB2       &mkp MB1    &trans                  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &kp RCTRL  &none
-&none  &none            &none        &none          &none       &trans  &trans  &trans  &mkp MB1  &mkp MB1  &mkp MB2  &none      &none      &none
-&none  &none            &none        &trans         &trans      &trans                  &mkp MB1  &mkp MB2  &kp N5    &none      &none      &none
+&none  &none            &none        &none          &none       &trans  &trans  &trans  &trans    &mkp MB1  &mkp MB2  &none      &none      &none
+&none  &none            &none        &trans         &trans      &trans                  &trans    &trans    &kp N5    &none      &none      &none
             >;
         };
     };
