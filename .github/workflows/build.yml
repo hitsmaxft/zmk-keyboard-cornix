@@ -5,6 +5,8 @@ on:
     paths:
       - "boards/*"
       - "config/*"
+    tags-ignore:
+      - "*"
 
 jobs:
   build:

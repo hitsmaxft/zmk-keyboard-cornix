@@ -1,17 +1,10 @@
-# Electronut Labs Papyr board configuration
+# cornix board configuration
 
 # Copyright (c) 2020 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
-if BOARD_CORNIX
-
-config BOARD
-    default "cornix"
-
-endif # BOARD_CORNIX
-
 ## Main device (left side)
-if BOARD_CORNIX_LEFT || BOARD_CORNIX_DONGLE
+if BOARD_CORNIX_LEFT
 
 config ZMK_KEYBOARD_NAME
 	default "Cornix"
@@ -57,11 +50,11 @@ config ZMK_KSCAN_DEBOUNCE_RELEASE_MS
 endif # BOARD_CORNIX_RIGHT
 
 # Common options for both sides
-if BOARD_CORNIX_LEFT  || BOARD_CORNIX_DONGLE || BOARD_CORNIX_PH_LEFT || BOARD_CORNIX_RIGHT
+if BOARD_CORNIX_LEFT  || BOARD_CORNIX_PH_LEFT || BOARD_CORNIX_RIGHT
 
 
-config BT_CTLR
-    default BT
+#config BT_CTLR
+#    default BT
 
 config BOARD_CORNIX_CHARGER
     default y
@@ -73,14 +66,11 @@ config ZMK_BLE
 	default y
 
 ## disable rgb by default
-config WS2812_STRIP
-	default n
 config ZMK_RGB_UNDERGLOW
 	default n
 config ZMK_RGB_UNDERGLOW_EXT_POWER
 	default n
+    
 
 endif # BOARD_CORNIX_LEFT || BOARD_CORNIX_RIGHT
-
-
 # vim: set ft=kconfig:

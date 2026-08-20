@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#164f46">
+    <meta name="description" content="Cornix 3.0.0 中文指南：在 Zephyr 4.1 上安装、刷写、恢复 ZMK 固件，启用 RGB 并集成 dongle。">
+    <meta property="og:title" content="Cornix 3.0.0 · 中文指南">
+    <meta property="og:description" content="安装 Cornix ZMK 固件，并构建可持久保存设置的 Zephyr 4.1 dongle 配置。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hitsmaxft.github.io/zmk-keyboard-cornix/zh/">
+    <meta property="og:image" content="https://hitsmaxft.github.io/zmk-keyboard-cornix/assets/cornix_with_dongle.png">
+    <link rel="canonical" href="https://hitsmaxft.github.io/zmk-keyboard-cornix/zh/">
+    <link rel="alternate" hreflang="en" href="https://hitsmaxft.github.io/zmk-keyboard-cornix/en/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://hitsmaxft.github.io/zmk-keyboard-cornix/zh/">
+    <link rel="alternate" hreflang="x-default" href="https://hitsmaxft.github.io/zmk-keyboard-cornix/">
+    <link rel="icon" href="../assets/cornix-mark.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../assets/site.css?v=2">
+    <title>Cornix 3.0.0 · 中文指南</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳至正文</a>
+
+    <header class="site-header">
+      <nav class="site-nav shell" aria-label="主导航">
+        <a class="brand" href="../">
+          <img src="../assets/cornix-mark.svg" alt="">
+          <span>Cornix × ZMK</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#overview">项目介绍</a></li>
+          <li><a href="#install">安装指南</a></li>
+          <li><a href="#dongle">Dongle 集成</a></li>
+          <li><a href="#resources">相关资源</a></li>
+        </ul>
+        <ul class="language-links" aria-label="语言">
+          <li><a href="../en/" lang="en">EN</a></li>
+          <li><a href="./" lang="zh-Hans" aria-current="page">中文</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="shell hero-grid">
+          <div>
+            <div class="version-pill">稳定版本 3.0.0</div>
+            <p class="eyebrow">矮轴 · 分体 · 开源固件</p>
+            <h1 id="hero-title">为 ZMK 调校的 Cornix。</h1>
+            <p class="hero-copy">
+              从首次刷写，到能够持久保存设置的 USB dongle，一份面向
+              Zephyr 4.1 与 ZMK <code>main</code> 的清晰实践指南。
+            </p>
+            <div class="hero-actions">
+              <a class="button" href="#install">开始安装</a>
+              <a class="button secondary" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/releases/tag/v3.0.0">下载 v3.0.0</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <img src="../assets/cornix_with_dongle.png" alt="Cornix 分体键盘及其 USB dongle">
+            <div class="hero-note">RGB 指示功能已可正式使用，但仍属可选项；默认发布的 UF2 并未启用 RGB。</div>
+          </div>
+        </div>
+        <div class="shell facts" aria-label="Cornix 主要特性">
+          <div class="fact"><strong>3 × 6 + 拇指键</strong><span>列交错分体布局</span></div>
+          <div class="fact"><strong>10° / 18° / 25°</strong><span>机械帐篷角度</span></div>
+          <div class="fact"><strong>Zephyr 4.1</strong><span>ZMK 限定板型</span></div>
+          <div class="fact"><strong>Choc V2</strong><span>矮轴热插拔</span></div>
+        </div>
+      </section>
+
+      <section class="section alt" id="overview" aria-labelledby="overview-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">01 · 项目介绍</p>
+              <h2 id="overview-title">构建之前，先分清每个角色。</h2>
+            </div>
+            <p>
+              Cornix 既可作为传统的左右两片 ZMK 分体键盘，也可让独立 USB
+              dongle 担任 central。board 名称决定角色，shield 则叠加 dongle、
+              屏幕或 RGB 功能。
+            </p>
+          </div>
+
+          <div class="notice">
+            <div class="notice-icon" aria-hidden="true">!</div>
+            <div>
+              <strong>Zephyr 4.1 必须使用带限定符的 board target。</strong>
+              <p>请使用下列 <code>board//zmk</code> 名称。未限定的 nice!nano 可能选中错误的 settings backend，导致重启后丢失蓝牙身份。</p>
+            </div>
+          </div>
+
+          <div class="card-grid">
+            <article class="card">
+              <p class="meta">直连分体 · Central</p>
+              <h3><code>cornix_left//zmk</code></h3>
+              <p>左半扫描自身矩阵、连接主机，并接收右半发送的分体输入事件。</p>
+            </article>
+            <article class="card">
+              <p class="meta">分体 · Peripheral</p>
+              <h3><code>cornix_right//zmk</code></h3>
+              <p>右半把矩阵及编码器事件发送给当前 central。</p>
+            </article>
+            <article class="card highlight">
+              <p class="meta">Dongle 模式 · Peripheral</p>
+              <h3><code>cornix_ph_left//zmk</code></h3>
+              <p>由独立 USB dongle 担任 central 时，左半须改用此角色。</p>
+            </article>
+          </div>
+
+          <div class="image-panel">
+            <img src="../assets/cornix_layout.png" alt="展示左右分体及拇指键区的 Cornix 布局图">
+            <div>
+              <p class="section-kicker">可选指示灯</p>
+              <h3>状态可见，待机时不必一直耗电。</h3>
+              <p>
+                <code>cornix_indicator</code> shield 驱动每侧两颗 RGB LED，显示
+                电量与分体连接状态。3.0.0 默认亮度为 64，最后一个临时指示结束
+                一秒后关闭 WS2812 电源轨。若主动保持 LED 常亮，仍会增加耗电。
+              </p>
+              <a href="https://github.com/hitsmaxft/zmk-rgbled-widget">查看 RGB widget 源码 →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="install" aria-labelledby="install-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">02 · 安装指南</p>
+              <h2 id="install-title">选择最短且安全的路径。</h2>
+            </div>
+            <p>
+              使用稳定版固件可直接获得默认配置；需要改键则 Fork 后交给 Actions
+              构建；已有 zmk-config 的用户可把 Cornix 作为 west 模块集成。
+            </p>
+          </div>
+
+          <div class="card-grid install-paths">
+            <article class="card">
+              <h3>稳定版固件</h3>
+              <p>下载 v3.0.0 ZIP，为每个角色选择对应 UF2，再按下文顺序清理设置并刷写。</p>
+              <div class="card-actions"><a class="button" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/releases/download/v3.0.0/zmk-keyboard-cornix-v3.0.0.zip">下载 ZIP</a></div>
+            </article>
+            <article class="card">
+              <h3>Fork + Actions</h3>
+              <p>Fork 仓库，编辑 <code>config/cornix.keymap</code> 后推送，再从最新 Actions 运行中下载 firmware artifact。</p>
+              <div class="card-actions"><a class="button secondary" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/fork">Fork 仓库</a></div>
+            </article>
+            <article class="card">
+              <h3>集成现有 zmk-config</h3>
+              <p>把模块合并进 west manifest，固定稳定 tag，更新依赖，并在 <code>build.yaml</code> 使用带限定符的 target。</p>
+              <div class="card-actions"><a class="button secondary" href="#existing-config">查看配置</a></div>
+            </article>
+          </div>
+
+          <div class="notice danger">
+            <div class="notice-icon" aria-hidden="true">!</div>
+            <div>
+              <strong>v3.0.0 预编译包使用仓库默认构建矩阵。</strong>
+              <p>其中包含标准分体、dongle 与 reset 角色所需的六个 UF2，但未启用 <code>cornix_indicator</code>。如需 RGB，请自行构建。</p>
+            </div>
+          </div>
+
+          <div class="guide-grid" id="existing-config">
+            <aside class="card guide-nav" aria-label="安装步骤">
+              <p class="meta">集成现有配置</p>
+              <ol>
+                <li><a href="#manifest">合并 manifest</a></li>
+                <li><a href="#build-matrix">选择 target</a></li>
+                <li><a href="#flash-order">清理并刷写</a></li>
+                <li><a href="#recovery">必要时恢复</a></li>
+              </ol>
+            </aside>
+            <div>
+              <article class="guide-panel" id="manifest">
+                <p class="meta">步骤 1</p>
+                <h3>将 Cornix 模块合并到 <code>config/west.yml</code></h3>
+                <p>每个 remote 与 project 只保留一份。固定 <code>v3.0.0</code> 可获得可复现的稳定配置；只有明确追踪开发版时才改用 <code>main</code>。</p>
+                <pre class="code-block"><code>manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: cornix-shield
+      url-base: https://github.com/hitsmaxft
+
+  projects:
+    - name: zmk
+      remote: zmkfirmware
+      revision: main
+      import: app/west.yml
+    - name: zmk-keyboard-cornix
+      remote: cornix-shield
+      revision: v3.0.0
+
+  self:
+    path: config</code></pre>
+                <pre class="code-block"><code>west update</code></pre>
+              </article>
+
+              <article class="guide-panel" id="build-matrix">
+                <p class="meta">步骤 2</p>
+                <h3>构建传统左右两片分体配置</h3>
+                <pre class="code-block"><code>include:
+  - board: cornix_left//zmk
+    artifact-name: cornix_left
+
+  - board: cornix_right//zmk
+    artifact-name: cornix_right
+
+  - board: cornix_right//zmk
+    shield: settings_reset
+    snippet: nrf52840-nosd
+    artifact-name: cornix_reset</code></pre>
+                <p>如需 RGB，请在 manifest 加入 <code>zmk-rgbled-widget</code>，并在需要驱动 LED 的半侧设置 <code>shield: cornix_indicator</code>。此功能须主动启用，不在默认发布包内。</p>
+              </article>
+
+              <article class="guide-panel" id="flash-order">
+                <p class="meta">步骤 3</p>
+                <h3>先清除旧状态，再刷入匹配角色</h3>
+                <ol class="steps">
+                  <li>让每一半进入 UF2 bootloader；通常可连续按两次 reset。</li>
+                  <li>从旧设置或旧 split bond 迁移时，先向左右两侧刷入 <code>cornix_reset.uf2</code>。</li>
+                  <li>再分别刷入匹配的左、右 UF2。</li>
+                  <li>同时 reset 或断电重启两侧，然后重新配对。</li>
+                </ol>
+              </article>
+
+              <article class="guide-panel" id="recovery">
+                <p class="meta">步骤 4</p>
+                <h3>注意 no-SoftDevice 分区布局</h3>
+                <p>
+                  Cornix v2.3 及之后的版本默认采用 no-SoftDevice 布局。若设备不再进入
+                  预期固件，或正在 stock RMK 与 ZMK 布局之间切换，请停止反复刷入无关
+                  UF2，先按仓库的 bootloader 恢复说明确认布局与恢复路径。
+                </p>
+                <div class="card-actions">
+                  <a class="button secondary" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/blob/v3.0.0/bootloader/README.md">Bootloader 恢复</a>
+                  <a class="button secondary" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/issues/48">升级公告</a>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="dongle" aria-labelledby="dongle-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">03 · Dongle 集成</p>
+              <h2 id="dongle-title">一个 central，两片安静的 peripheral。</h2>
+            </div>
+            <p>
+              在 dongle 模式下，USB 接收器负责主机 endpoint。键盘左右两片都成为
+              split peripheral，因此左半固件必须由 <code>cornix_left//zmk</code>
+              改为 <code>cornix_ph_left//zmk</code>。
+            </p>
+          </div>
+
+          <div class="topology" aria-label="Cornix dongle 拓扑">
+            <article class="node central">
+              <div><p class="meta">USB Central</p><h3>Dongle</h3></div>
+              <p><code>nice_nano//zmk</code><br><code>cornix_dongle_adapter</code></p>
+            </article>
+            <div class="topology-arrow" aria-hidden="true">↔</div>
+            <article class="node">
+              <div><p class="meta">Split Peripheral</p><h3>左半</h3></div>
+              <p><code>cornix_ph_left//zmk</code></p>
+            </article>
+            <div class="topology-arrow" aria-hidden="true">↔</div>
+            <article class="node">
+              <div><p class="meta">Split Peripheral</p><h3>右半</h3></div>
+              <p><code>cornix_right//zmk</code></p>
+            </article>
+          </div>
+
+          <div class="split-columns">
+            <article class="card">
+              <p class="meta">必需</p>
+              <h3><code>cornix_dongle_adapter</code></h3>
+              <p>为 Cornix dongle 构建提供预期的矩阵及 split 角色。正确拼写是 <strong>adapter</strong>，请勿再使用旧文档中的 <code>adaptor</code> 拼写。</p>
+            </article>
+            <article class="card">
+              <p class="meta">按需添加屏幕</p>
+              <h3><code>cornix_dongle_eyelash</code> + <code>dongle_display</code></h3>
+              <p>仅当 dongle board 尚未提供 <code>zephyr,display</code> 时添加 eyelash shield；<code>dongle_display</code> 提供显示 widget。独立的旧 <code>dongle_screen</code> 路径并非此处支持的 Zephyr 4.1 方案。</p>
+            </article>
+          </div>
+
+          <article class="guide-panel" style="margin-top: 18px">
+            <p class="meta">构建矩阵</p>
+            <h3>标准 dongle 组合</h3>
+            <pre class="code-block"><code>include:
+  - board: nice_nano//zmk
+    shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
+    snippet: studio-rpc-usb-uart nrf52840-nosd
+    artifact-name: cornix_dongle_nosd
+
+  - board: cornix_ph_left//zmk
+    artifact-name: cornix_left_for_dongle_nosd
+
+  - board: cornix_right//zmk
+    artifact-name: cornix_right_nosd
+
+  - board: nice_nano//zmk
+    shield: settings_reset
+    snippet: studio-rpc-usb-uart nrf52840-nosd
+    artifact-name: reset_nicenano_nosd</code></pre>
+            <p>使用 <code>dongle_display</code> 时，还须在 west manifest 加入当前 <code>zmk-dongle-display</code> 模块。若硬件已经定义 <code>zephyr,display</code>，则省略 <code>cornix_dongle_eyelash</code>，改用与实际屏幕硬件匹配的 shield。</p>
+          </article>
+
+          <article class="guide-panel" style="margin-top: 18px">
+            <p class="meta">持久化验收</p>
+            <h3>编译成功尚不足够。</h3>
+            <p>请检查 dongle 最终生成的 <code>.config</code>。带限定符的 nice!nano 必须通过 NVS 保存蓝牙身份与 split bond：</p>
+            <pre class="code-block"><code>CONFIG_BOARD_TARGET="nice_nano@2.0.0/nrf52840/zmk"
+CONFIG_NVS=y
+CONFIG_SETTINGS_NVS=y
+# CONFIG_SETTINGS_NONE=y must be absent</code></pre>
+            <p>若日志出现 <code>No ID address</code>、settings 保存错误、SMP 失败，或每次重启都产生新蓝牙身份，请先确认 board 限定符与 settings backend，再分析 RF。</p>
+          </article>
+
+          <article class="guide-panel" style="margin-top: 18px">
+            <p class="meta">高级 RPC 扩展</p>
+            <h3>三端须使用同一 relay 契约。</h3>
+            <p>
+              若启用 DYA Settings RPC 或 Battery History 的跨分体传播，dongle 与左右
+              peripheral 必须公开相同的 split relay contract。缺失 relay characteristic
+              是这些 RPC 传播功能的兼容风险，但不能据此断言普通分体按键输入必然失效。
+              应把启动日志、characteristic 订阅、position notification 与 RPC 行为分别验收。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="resources" aria-labelledby="resources-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">04 · 相关资源</p>
+              <h2 id="resources-title">回到源码，查看完整细节。</h2>
+            </div>
+            <p>本站用于快速完成具体任务；仓库 README、tag 源码及 issue 历史仍是详细记录与事实来源。</p>
+          </div>
+          <div class="resources">
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix"><strong>源码仓库</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/releases/tag/v3.0.0"><strong>v3.0.0 正式版</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/blob/v3.0.0/README_zh.md"><strong>中文 README</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://zmk.dev/docs"><strong>ZMK 官方文档</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/issues"><strong>Issue 与支持</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/blob/v3.0.0/bootloader/README.md"><strong>Bootloader 恢复</strong><span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <strong>Cornix 社区固件</strong>
+          <p>Pages 部署仅证明文档产物可访问；固件构建、RF、USB、屏幕输出、刷写及实体硬件行为仍是彼此独立的验收门槛。</p>
+        </div>
+        <a href="#main-content">返回顶部 ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>

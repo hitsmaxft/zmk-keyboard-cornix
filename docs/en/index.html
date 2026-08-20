@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#164f46">
+    <meta name="description" content="English guide to Cornix 3.0.0: ZMK installation, flashing, recovery, RGB, and dongle integration on Zephyr 4.1.">
+    <meta property="og:title" content="Cornix 3.0.0 · English guide">
+    <meta property="og:description" content="Install Cornix ZMK firmware and build a persistent Zephyr 4.1 dongle setup.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hitsmaxft.github.io/zmk-keyboard-cornix/en/">
+    <meta property="og:image" content="https://hitsmaxft.github.io/zmk-keyboard-cornix/assets/cornix_with_dongle.png">
+    <link rel="canonical" href="https://hitsmaxft.github.io/zmk-keyboard-cornix/en/">
+    <link rel="alternate" hreflang="en" href="https://hitsmaxft.github.io/zmk-keyboard-cornix/en/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://hitsmaxft.github.io/zmk-keyboard-cornix/zh/">
+    <link rel="alternate" hreflang="x-default" href="https://hitsmaxft.github.io/zmk-keyboard-cornix/">
+    <link rel="icon" href="../assets/cornix-mark.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../assets/site.css?v=2">
+    <title>Cornix 3.0.0 · English guide</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <nav class="site-nav shell" aria-label="Primary navigation">
+        <a class="brand" href="../">
+          <img src="../assets/cornix-mark.svg" alt="">
+          <span>Cornix × ZMK</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#dongle">Dongle</a></li>
+          <li><a href="#resources">Resources</a></li>
+        </ul>
+        <ul class="language-links" aria-label="Language">
+          <li><a href="./" lang="en" aria-current="page">EN</a></li>
+          <li><a href="../zh/" lang="zh-Hans">中文</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="shell hero-grid">
+          <div>
+            <div class="version-pill">Stable release 3.0.0</div>
+            <p class="eyebrow">Low-profile · split · open firmware</p>
+            <h1 id="hero-title">Cornix, tuned for ZMK.</h1>
+            <p class="hero-copy">
+              A focused guide to running Cornix on the Zephyr 4.1-based ZMK
+              main branch—from a first flash to a persistent USB dongle setup.
+            </p>
+            <div class="hero-actions">
+              <a class="button" href="#install">Start installing</a>
+              <a class="button secondary" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/releases/tag/v3.0.0">Download v3.0.0</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <img src="../assets/cornix_with_dongle.png" alt="Cornix split keyboard beside a small USB dongle">
+            <div class="hero-note">The RGB indicators are production-ready and optional. The default release UF2 files keep them disabled.</div>
+          </div>
+        </div>
+        <div class="shell facts" aria-label="Cornix quick facts">
+          <div class="fact"><strong>3 × 6 + thumbs</strong><span>Column-staggered split</span></div>
+          <div class="fact"><strong>10° / 18° / 25°</strong><span>Mechanical tenting</span></div>
+          <div class="fact"><strong>Zephyr 4.1</strong><span>Qualified ZMK targets</span></div>
+          <div class="fact"><strong>Choc V2</strong><span>Low-profile hot-swap</span></div>
+        </div>
+      </section>
+
+      <section class="section alt" id="overview" aria-labelledby="overview-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">01 · Overview</p>
+              <h2 id="overview-title">Know each role before you build.</h2>
+            </div>
+            <p>
+              Cornix can run as a conventional two-part ZMK split or with a
+              USB dongle acting as the central. Board names describe the role;
+              shields add dongle, display, or RGB behavior.
+            </p>
+          </div>
+
+          <div class="notice">
+            <div class="notice-icon" aria-hidden="true">!</div>
+            <div>
+              <strong>Zephyr 4.1 requires qualified board targets.</strong>
+              <p>Use the <code>board//zmk</code> names below. An unqualified nice!nano can select the wrong settings backend and lose its Bluetooth identity after reboot.</p>
+            </div>
+          </div>
+
+          <div class="card-grid">
+            <article class="card">
+              <p class="meta">Direct split · central</p>
+              <h3><code>cornix_left//zmk</code></h3>
+              <p>The left half scans its matrix, connects to the host, and receives split input from the right half.</p>
+            </article>
+            <article class="card">
+              <p class="meta">Split · peripheral</p>
+              <h3><code>cornix_right//zmk</code></h3>
+              <p>The right half provides its matrix and encoder events to the selected central.</p>
+            </article>
+            <article class="card highlight">
+              <p class="meta">Dongle mode · peripheral</p>
+              <h3><code>cornix_ph_left//zmk</code></h3>
+              <p>Use this left-half role when a separate USB dongle becomes the split central.</p>
+            </article>
+          </div>
+
+          <div class="image-panel">
+            <img src="../assets/cornix_layout.png" alt="Cornix key layout showing the two split halves and thumb clusters">
+            <div>
+              <p class="section-kicker">Optional indicators</p>
+              <h3>Visible state without permanent drain.</h3>
+              <p>
+                The <code>cornix_indicator</code> shield drives two RGB LEDs on
+                each half for battery and split status. Version 3.0.0 defaults
+                to brightness 64 and switches the WS2812 rail off one second
+                after the final transient indication. A deliberately lit LED
+                still uses extra power.
+              </p>
+              <a href="https://github.com/hitsmaxft/zmk-rgbled-widget">Review the RGB widget source →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="install" aria-labelledby="install-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">02 · Install</p>
+              <h2 id="install-title">Choose the shortest safe path.</h2>
+            </div>
+            <p>
+              Download the stable package for the repository defaults, fork
+              the project for keymap changes, or add the module to an existing
+              ZMK configuration for full control.
+            </p>
+          </div>
+
+          <div class="card-grid install-paths">
+            <article class="card">
+              <h3>Stable release</h3>
+              <p>Download the v3.0.0 ZIP, choose the UF2 matching each role, and follow the reset sequence below.</p>
+              <div class="card-actions"><a class="button" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/releases/download/v3.0.0/zmk-keyboard-cornix-v3.0.0.zip">Download ZIP</a></div>
+            </article>
+            <article class="card">
+              <h3>Fork + Actions</h3>
+              <p>Fork the repository, edit <code>config/cornix.keymap</code>, push, then download the firmware artifact from the latest Actions run.</p>
+              <div class="card-actions"><a class="button secondary" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/fork">Fork repository</a></div>
+            </article>
+            <article class="card">
+              <h3>Existing zmk-config</h3>
+              <p>Merge the module into your west manifest, pin the stable tag, update dependencies, and add qualified targets to <code>build.yaml</code>.</p>
+              <div class="card-actions"><a class="button secondary" href="#existing-config">View config</a></div>
+            </article>
+          </div>
+
+          <div class="notice danger">
+            <div class="notice-icon" aria-hidden="true">!</div>
+            <div>
+              <strong>The prebuilt v3.0.0 package uses the default matrix.</strong>
+              <p>It includes six UF2 files for the standard split, dongle, and reset roles, but does not enable <code>cornix_indicator</code>. Build your own firmware to opt into RGB.</p>
+            </div>
+          </div>
+
+          <div class="guide-grid" id="existing-config">
+            <aside class="card guide-nav" aria-label="Installation steps">
+              <p class="meta">Existing configuration</p>
+              <ol>
+                <li><a href="#manifest">Merge the manifest</a></li>
+                <li><a href="#build-matrix">Choose targets</a></li>
+                <li><a href="#flash-order">Reset and flash</a></li>
+                <li><a href="#recovery">Recover if needed</a></li>
+              </ol>
+            </aside>
+            <div>
+              <article class="guide-panel" id="manifest">
+                <p class="meta">Step 1</p>
+                <h3>Merge the Cornix module into <code>config/west.yml</code></h3>
+                <p>Keep one copy of each remote and project. Pin Cornix to <code>v3.0.0</code> for a reproducible stable setup; switch to <code>main</code> only when you intentionally follow development.</p>
+                <pre class="code-block"><code>manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: cornix-shield
+      url-base: https://github.com/hitsmaxft
+
+  projects:
+    - name: zmk
+      remote: zmkfirmware
+      revision: main
+      import: app/west.yml
+    - name: zmk-keyboard-cornix
+      remote: cornix-shield
+      revision: v3.0.0
+
+  self:
+    path: config</code></pre>
+                <pre class="code-block"><code>west update</code></pre>
+              </article>
+
+              <article class="guide-panel" id="build-matrix">
+                <p class="meta">Step 2</p>
+                <h3>Build a conventional two-part split</h3>
+                <pre class="code-block"><code>include:
+  - board: cornix_left//zmk
+    artifact-name: cornix_left
+
+  - board: cornix_right//zmk
+    artifact-name: cornix_right
+
+  - board: cornix_right//zmk
+    shield: settings_reset
+    snippet: nrf52840-nosd
+    artifact-name: cornix_reset</code></pre>
+                <p>For RGB, add <code>zmk-rgbled-widget</code> to the manifest and set <code>shield: cornix_indicator</code> on the half being built. This is an opt-in, not part of the default release package.</p>
+              </article>
+
+              <article class="guide-panel" id="flash-order">
+                <p class="meta">Step 3</p>
+                <h3>Clear old state, then flash matching roles</h3>
+                <ol class="steps">
+                  <li>Put each half into UF2 bootloader mode, usually by double-tapping reset.</li>
+                  <li>Flash <code>cornix_reset.uf2</code> to both halves when migrating old settings or split bonds.</li>
+                  <li>Flash the matching left and right UF2 files.</li>
+                  <li>Reset or power-cycle both halves together, then pair again.</li>
+                </ol>
+              </article>
+
+              <article class="guide-panel" id="recovery">
+                <p class="meta">Step 4</p>
+                <h3>Respect the no-SoftDevice layout</h3>
+                <p>
+                  Cornix v2.3 and later use the no-SoftDevice layout by
+                  default. If a board no longer enters the expected firmware
+                  or you are moving between stock RMK and ZMK layouts, stop and
+                  follow the repository's bootloader recovery guide before
+                  repeatedly flashing unrelated UF2 files.
+                </p>
+                <div class="card-actions">
+                  <a class="button secondary" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/blob/v3.0.0/bootloader/README.md">Bootloader recovery</a>
+                  <a class="button secondary" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/issues/48">Upgrade notice</a>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="dongle" aria-labelledby="dongle-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">03 · Dongle integration</p>
+              <h2 id="dongle-title">One central. Two quiet peripherals.</h2>
+            </div>
+            <p>
+              In dongle mode the USB receiver owns the host endpoint. Both
+              keyboard halves become split peripherals, so left-half firmware
+              must change from <code>cornix_left//zmk</code> to
+              <code>cornix_ph_left//zmk</code>.
+            </p>
+          </div>
+
+          <div class="topology" aria-label="Cornix dongle topology">
+            <article class="node central">
+              <div><p class="meta">USB central</p><h3>Dongle</h3></div>
+              <p><code>nice_nano//zmk</code><br><code>cornix_dongle_adapter</code></p>
+            </article>
+            <div class="topology-arrow" aria-hidden="true">↔</div>
+            <article class="node">
+              <div><p class="meta">Split peripheral</p><h3>Left half</h3></div>
+              <p><code>cornix_ph_left//zmk</code></p>
+            </article>
+            <div class="topology-arrow" aria-hidden="true">↔</div>
+            <article class="node">
+              <div><p class="meta">Split peripheral</p><h3>Right half</h3></div>
+              <p><code>cornix_right//zmk</code></p>
+            </article>
+          </div>
+
+          <div class="split-columns">
+            <article class="card">
+              <p class="meta">Required</p>
+              <h3><code>cornix_dongle_adapter</code></h3>
+              <p>Provides the matrix/split role expected by a Cornix dongle build. The spelling is <strong>adapter</strong>, not the older <code>adaptor</code> typo.</p>
+            </article>
+            <article class="card">
+              <p class="meta">Display, when needed</p>
+              <h3><code>cornix_dongle_eyelash</code> + <code>dongle_display</code></h3>
+              <p>Add the eyelash shield only when the dongle board does not already provide <code>zephyr,display</code>. <code>dongle_display</code> supplies the widgets. The separate legacy <code>dongle_screen</code> path is not the supported Zephyr 4.1 choice here.</p>
+            </article>
+          </div>
+
+          <article class="guide-panel" style="margin-top: 18px">
+            <p class="meta">Build matrix</p>
+            <h3>Standard dongle composition</h3>
+            <pre class="code-block"><code>include:
+  - board: nice_nano//zmk
+    shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
+    snippet: studio-rpc-usb-uart nrf52840-nosd
+    artifact-name: cornix_dongle_nosd
+
+  - board: cornix_ph_left//zmk
+    artifact-name: cornix_left_for_dongle_nosd
+
+  - board: cornix_right//zmk
+    artifact-name: cornix_right_nosd
+
+  - board: nice_nano//zmk
+    shield: settings_reset
+    snippet: studio-rpc-usb-uart nrf52840-nosd
+    artifact-name: reset_nicenano_nosd</code></pre>
+            <p>Add the current <code>zmk-dongle-display</code> module to your west manifest when using <code>dongle_display</code>. If your hardware already defines <code>zephyr,display</code>, omit <code>cornix_dongle_eyelash</code> and substitute the display shield that matches that hardware.</p>
+          </article>
+
+          <article class="guide-panel" style="margin-top: 18px">
+            <p class="meta">Persistence gate</p>
+            <h3>A successful compile is not enough.</h3>
+            <p>Inspect the final dongle <code>.config</code>. The qualified nice!nano target must preserve identities and split bonds through NVS:</p>
+            <pre class="code-block"><code>CONFIG_BOARD_TARGET="nice_nano@2.0.0/nrf52840/zmk"
+CONFIG_NVS=y
+CONFIG_SETTINGS_NVS=y
+# CONFIG_SETTINGS_NONE=y must be absent</code></pre>
+            <p>If you see <code>No ID address</code>, settings-save errors, SMP failures, or a new Bluetooth identity after every reboot, verify the board qualifier and settings backend before debugging RF behavior.</p>
+          </article>
+
+          <article class="guide-panel" style="margin-top: 18px">
+            <p class="meta">Advanced RPC extensions</p>
+            <h3>Keep relay features on the same contract.</h3>
+            <p>
+              When enabling DYA Settings RPC or Battery History propagation,
+              the dongle and both peripherals must expose the same split relay
+              contract. A missing relay characteristic is a compatibility risk
+              for those propagated RPC features; it is not, by itself, proof
+              that ordinary split key input cannot work. Validate boot logs,
+              characteristic subscriptions, position notifications, and RPC
+              behavior as separate gates.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="resources" aria-labelledby="resources-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">04 · Resources</p>
+              <h2 id="resources-title">Go deeper at the source.</h2>
+            </div>
+            <p>This site is a task-oriented guide. The repository READMEs, tagged source, and issue history remain the detailed record.</p>
+          </div>
+          <div class="resources">
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix"><strong>Source repository</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/releases/tag/v3.0.0"><strong>v3.0.0 release</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/blob/v3.0.0/README.md"><strong>Canonical README</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://zmk.dev/docs"><strong>Official ZMK docs</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/issues"><strong>Issues and support</strong><span aria-hidden="true">↗</span></a>
+            <a class="resource-link" href="https://github.com/hitsmaxft/zmk-keyboard-cornix/blob/v3.0.0/bootloader/README.md"><strong>Bootloader recovery</strong><span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <strong>Cornix community firmware</strong>
+          <p>Documentation deployment proves the site artifact only. Firmware builds, RF behavior, USB, display output, flashing, and physical hardware remain separate validation gates.</p>
+        </div>
+        <a href="#main-content">Back to top ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>

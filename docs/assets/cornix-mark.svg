@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Cornix split keyboard mark</title>
+  <rect width="64" height="64" rx="18" fill="#164f46"/>
+  <g fill="none" stroke="#c6f0df" stroke-linecap="round" stroke-width="5">
+    <path d="M12 22h15v20H12z"/>
+    <path d="M37 22h15v20H37z"/>
+    <path d="m27 36 5 5 5-5"/>
+  </g>
+  <circle cx="18" cy="29" r="2.5" fill="#f16f51"/>
+  <circle cx="46" cy="29" r="2.5" fill="#f16f51"/>
+</svg>
