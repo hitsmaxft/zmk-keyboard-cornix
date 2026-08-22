@@ -360,31 +360,31 @@ layers:
 combos:
 - p: [4, 3]
   k: '{'
-  l: [Base]
+  l: [Base, Win]
 - p: [7, 8]
   k: '}'
-  l: [Base]
+  l: [Base, Win]
 - p: [16, 17]
   k: (
-  l: [Base]
+  l: [Base, Win]
 - p: [19, 18]
   k: )
-  l: [Base]
+  l: [Base, Win]
 - p: [28, 27]
   k: '['
-  l: [Base]
+  l: [Base, Win]
 - p: [33, 34]
   k: ']'
-  l: [Base]
+  l: [Base, Win]
 - p: [15, 16]
   k: '&mkp MB3'
   l: [Navi]
 - p: [1, 2]
   k: ESCAPE
-  l: [Base]
+  l: [Base, Win]
 - p: [2, 3]
   k: TAB
-  l: [Base]
+  l: [Base, Win]
 - p: [34, 33]
   k: '&mkp MB3'
   l: [Navi]
