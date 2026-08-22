@@ -238,7 +238,13 @@
             label = "ALT_TAB";
             wait-ms = <15>;
             tap-ms = <15>;
-            bindings = <&macro_release &kp LCTRL &kp RCTRL>, <&macro_press &kp LALT>, <&macro_tap &kp TAB>;
+            bindings =
+                <&macro_release>,
+                <&kp LCTRL &kp RCTRL>,
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp TAB>;
         };
 
         /*
@@ -253,7 +259,12 @@
             #binding-cells = <0>;
             label = "WIN_LCTL";
             wait-ms = <0>;
-            bindings = <&macro_press &kp LCTRL &mo SWAP>, <&macro_pause_for_release>, <&macro_release &kp LCTRL &kp LALT &mo SWAP>;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL &mo SWAP>,
+                <&macro_pause_for_release>,
+                <&macro_release>,
+                <&kp LCTRL &kp LALT &mo SWAP>;
         };
     };
 
@@ -386,10 +397,10 @@
              */
 
             bindings = <
-&trans  &trans  &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &win_lctl  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans            &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans            &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans            &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &kp LEFT_COMMAND  &win_lctl  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
             >;
         };
 
