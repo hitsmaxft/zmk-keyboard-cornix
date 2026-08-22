@@ -23,6 +23,7 @@
 #define FUNCTION 4
 #define ADJUST   5
 #define NAVI     6
+#define SWAP     7  // reachable only while a Windows-layer thumb CTRL is held
 
 // https://github.com/urob/zmk-config/tree/main#timeless-homerow-mods
 
@@ -184,14 +185,19 @@
             tapping-term-ms = <200>;
         };
 
-        // Windows has no CTRL+TAB app switcher, so send ALT+TAB instead and
-        // mask the CTRL that triggered it. SHIFT is not listed in mods, so
-        // CTRL+SHIFT+TAB still cycles backwards as ALT+SHIFT+TAB.
+        /*
+         * TAB on the SWAP layer. The first press, with CTRL still held, runs
+         * &alt_tab, which drops CTRL from the report and holds ALT down. That
+         * clears MOD_LCTL/MOD_RCTL from the explicit modifiers the morph
+         * tests, so every later press takes the plain &kp TAB branch and
+         * lands as ALT+TAB with the ALT that is still held. SHIFT is not
+         * listed in mods, so CTRL+SHIFT+TAB cycles backwards.
+         */
 
         ctl_tab: ctrl_tab {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp TAB>, <&kp LA(TAB)>;
+            bindings = <&kp TAB>, <&alt_tab>;
 
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
@@ -216,6 +222,38 @@
             #binding-cells = <1>;
             label = "BT_WIN";
             bindings = <&macro_param_1to2 &bt BT_SEL MACRO_PLACEHOLDER &tog_on WIN>;
+        };
+
+        /*
+         * Hand off from CTRL to a held ALT for app switching. Releasing a
+         * modifier that is not held is a guarded no-op in ZMK (it logs and
+         * returns), so the unbalanced releases here are safe: &alt_tab
+         * releases whichever CTRL was held, and win_lctl releases an ALT that
+         * only exists if &alt_tab ran.
+         */
+
+        alt_tab: alt_tab_first_press {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            label = "ALT_TAB";
+            wait-ms = <15>;
+            tap-ms = <15>;
+            bindings = <&macro_release &kp LCTRL &kp RCTRL>, <&macro_press &kp LALT>, <&macro_tap &kp TAB>;
+        };
+
+        /*
+         * CTRL on the Windows layer's left thumb. Holding it also holds the
+         * SWAP layer, which is the only place &ctl_tab lives, so ALT can
+         * never be pressed without this key's release being there to let it
+         * go. That release is what commits the app switcher.
+         */
+
+        win_lctl: win_left_ctrl {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            label = "WIN_LCTL";
+            wait-ms = <0>;
+            bindings = <&macro_press &kp LCTRL &mo SWAP>, <&macro_pause_for_release>, <&macro_release &kp LCTRL &kp LALT &mo SWAP>;
         };
     };
 
@@ -339,17 +377,19 @@
              * This layer sits directly above BASE so every momentary layer
              * (SYMBOL and above) still takes precedence over it.
              *
-             * TAB also morphs to ALT+TAB while CTRL is held, so the finger
-             * that switches apps with CMD+TAB on macOS keeps switching apps
-             * here. The Navi layer keeps a plain &kp LC(TAB) for cycling
-             * browser tabs.
+             * The left thumb is a macro holding CTRL and the SWAP layer
+             * together, so CTRL+TAB switches apps the way CMD+TAB does on
+             * macOS, with ALT held until the thumb comes up. The right thumb
+             * is left alone: base already has GUI there, which is the Windows
+             * key on a Windows host. The Navi layer keeps a plain
+             * &kp LC(TAB) for cycling browser tabs.
              */
 
             bindings = <
-&ctl_tab  &trans  &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans     &trans  &trans
-&trans    &trans  &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans     &trans  &trans
-&trans    &trans  &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans     &trans  &trans
-&trans    &trans  &kp LCTRL  &trans  &trans  &trans                  &trans  &trans  &trans  &kp RCTRL  &trans  &trans
+&trans  &trans  &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &win_lctl  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
             >;
         };
 
@@ -433,6 +473,24 @@
 &none  &trans           &trans       &mkp MB2       &mkp MB1    &trans                  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &kp RCTRL  &none
 &none  &none            &none        &none          &none       &trans  &trans  &trans  &trans    &mkp MB1  &mkp MB2  &none      &none      &none
 &none  &none            &none        &trans         &trans      &trans                  &trans    &trans    &kp N5    &none      &none      &none
+            >;
+        };
+
+        swap_layer {
+            display-name = "Swap";
+
+            /*
+             * Held by the Windows layer's left thumb CTRL and nothing else,
+             * which is what keeps a held ALT from outliving the key that
+             * started it. Only TAB is bound; the rest falls through, so
+             * CTRL+C and friends still work while the thumb is down.
+             */
+
+            bindings = <
+&ctl_tab  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans    &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans    &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
             >;
         };
     };
