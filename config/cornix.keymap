@@ -183,6 +183,17 @@
             #binding-cells = <2>;
             tapping-term-ms = <200>;
         };
+
+        // Windows has no CTRL+TAB app switcher, so send ALT+TAB instead and
+        // mask the CTRL that triggered it. SHIFT is not listed in mods, so
+        // CTRL+SHIFT+TAB still cycles backwards as ALT+SHIFT+TAB.
+
+        ctl_tab: ctrl_tab_as_alt_tab {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp TAB>, <&kp LA(TAB)>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
     };
 
     /*
@@ -332,13 +343,18 @@
              *
              * This layer sits directly above BASE so every momentary layer
              * (SYMBOL and above) still takes precedence over it.
+             *
+             * TAB also morphs to ALT+TAB while CTRL is held, so the finger
+             * that switches apps with CMD+TAB on macOS keeps switching apps
+             * here. The Navi layer keeps a plain &kp LC(TAB) for cycling
+             * browser tabs.
              */
 
             bindings = <
-&trans  &trans                &trans     &trans         &trans  &trans                  &trans  &trans  &trans         &trans     &trans                    &trans
-&trans  &hm_l LEFT_COMMAND A  &trans     &hm_l LCTRL D  &trans  &trans                  &trans  &trans  &hm_r RCTRL K  &trans     &hm_r RIGHT_COMMAND SEMI  &trans
-&trans  &trans                &trans     &trans         &trans  &trans  &trans  &trans  &trans  &trans  &trans         &trans     &trans                    &trans
-&trans  &trans                &kp LCTRL  &trans         &trans  &trans                  &trans  &trans  &trans         &kp RCTRL  &trans                    &trans
+&ctl_tab  &trans                &trans     &trans         &trans  &trans                  &trans  &trans  &trans         &trans     &trans                    &trans
+&trans    &hm_l LEFT_COMMAND A  &trans     &hm_l LCTRL D  &trans  &trans                  &trans  &trans  &hm_r RCTRL K  &trans     &hm_r RIGHT_COMMAND SEMI  &trans
+&trans    &trans                &trans     &trans         &trans  &trans  &trans  &trans  &trans  &trans  &trans         &trans     &trans                    &trans
+&trans    &trans                &kp LCTRL  &trans         &trans  &trans                  &trans  &trans  &trans         &kp RCTRL  &trans                    &trans
             >;
         };
 
