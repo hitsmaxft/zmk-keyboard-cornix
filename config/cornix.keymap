@@ -188,10 +188,11 @@
         // mask the CTRL that triggered it. SHIFT is not listed in mods, so
         // CTRL+SHIFT+TAB still cycles backwards as ALT+SHIFT+TAB.
 
-        ctl_tab: ctrl_tab_as_alt_tab {
+        ctl_tab: ctrl_tab {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
             bindings = <&kp TAB>, <&kp LA(TAB)>;
+
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
     };
