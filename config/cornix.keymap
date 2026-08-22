@@ -207,20 +207,14 @@
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
             label = "BT_MAC";
-            bindings =
-                <&macro_param_1to2>,
-                <&bt BT_SEL MACRO_PLACEHOLDER>,
-                <&tog_off WIN>;
+            bindings = <&macro_param_1to2 &bt BT_SEL MACRO_PLACEHOLDER &tog_off WIN>;
         };
 
         bt_win: bt_profile_win {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
             label = "BT_WIN";
-            bindings =
-                <&macro_param_1to2>,
-                <&bt BT_SEL MACRO_PLACEHOLDER>,
-                <&tog_on WIN>;
+            bindings = <&macro_param_1to2 &bt BT_SEL MACRO_PLACEHOLDER &tog_on WIN>;
         };
     };
 
@@ -351,10 +345,10 @@
              */
 
             bindings = <
-&ctl_tab  &trans                &trans     &trans         &trans  &trans                  &trans  &trans  &trans         &trans     &trans                    &trans
-&trans    &hm_l LEFT_COMMAND A  &trans     &hm_l LCTRL D  &trans  &trans                  &trans  &trans  &hm_r RCTRL K  &trans     &hm_r RIGHT_COMMAND SEMI  &trans
-&trans    &trans                &trans     &trans         &trans  &trans  &trans  &trans  &trans  &trans  &trans         &trans     &trans                    &trans
-&trans    &trans                &kp LCTRL  &trans         &trans  &trans                  &trans  &trans  &trans         &kp RCTRL  &trans                    &trans
+&ctl_tab  &trans  &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans     &trans  &trans
+&trans    &trans  &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans     &trans  &trans
+&trans    &trans  &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans     &trans  &trans
+&trans    &trans  &kp LCTRL  &trans  &trans  &trans                  &trans  &trans  &trans  &kp RCTRL  &trans  &trans
             >;
         };
 
