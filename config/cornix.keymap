@@ -287,46 +287,54 @@
     combos {
         compatible = "zmk,combos";
 
+        /*
+         * ZMK matches a combo against the highest active layer only, so a
+         * combo listing just BASE stops firing as soon as the WIN overlay is
+         * toggled on. Every base-layer combo therefore lists <0 1> (BASE and
+         * WIN); WIN is &trans on all of these positions, so the combo means
+         * the same thing on both.
+         */
+
         left_brace {
             bindings = <&kp LEFT_BRACE>;
             timeout-ms = <25>;
             key-positions = <4 3>;
-            layers = <0>;
+            layers = <0 1>;
         };
 
         right_brace {
             bindings = <&kp RIGHT_BRACE>;
             timeout-ms = <25>;
             key-positions = <7 8>;
-            layers = <0>;
+            layers = <0 1>;
         };
 
         left_parenthesis {
             bindings = <&kp LEFT_PARENTHESIS>;
             timeout-ms = <25>;
             key-positions = <16 17>;
-            layers = <0>;
+            layers = <0 1>;
         };
 
         right_parenthesis {
             bindings = <&kp RIGHT_PARENTHESIS>;
             timeout-ms = <25>;
             key-positions = <19 18>;
-            layers = <0>;
+            layers = <0 1>;
         };
 
         left_bracket {
             bindings = <&kp LEFT_BRACKET>;
             timeout-ms = <25>;
             key-positions = <28 27>;
-            layers = <0>;
+            layers = <0 1>;
         };
 
         right_bracket {
             bindings = <&kp RIGHT_BRACKET>;
             timeout-ms = <20>;
             key-positions = <33 34>;
-            layers = <0>;
+            layers = <0 1>;
         };
 
         click {
@@ -340,14 +348,14 @@
             bindings = <&kp ESCAPE>;
             key-positions = <1 2>;
             timeout-ms = <30>;
-            layers = <0>;
+            layers = <0 1>;
         };
 
         tab {
             bindings = <&kp TAB>;
             key-positions = <2 3>;
             timeout-ms = <30>;
-            layers = <0>;
+            layers = <0 1>;
         };
 
         middleclick {
