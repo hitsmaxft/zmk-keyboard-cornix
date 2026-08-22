@@ -52,7 +52,7 @@ layers:
   - RIGHT ALT
   - Adjust
   Win:
-  - {t: ▽, type: trans}
+  - {t: TAB, s: Alt+TAB}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
