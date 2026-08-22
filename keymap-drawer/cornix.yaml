@@ -51,6 +51,57 @@ layers:
   - RIGHT COMMAND
   - RIGHT ALT
   - Adjust
+  Win:
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: A, h: LEFT COMMAND}
+  - {t: ▽, type: trans}
+  - {t: D, h: LCTRL}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: K, h: RCTRL}
+  - {t: ▽, type: trans}
+  - {t: ;, h: RIGHT COMMAND}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - LCTRL
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - RCTRL
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
   Symbols:
   - ''
   - '!'
@@ -206,8 +257,8 @@ layers:
   - {t: ▽, type: trans}
   Adjust:
   - BT CLR
-  - {t: BT, h: '0'}
-  - {t: BT, h: '1'}
+  - '&bt_mac'
+  - '&bt_win 1'
   - {t: BT, h: '2'}
   - {t: BT, h: '3'}
   - {t: BT, h: '4'}
@@ -232,7 +283,7 @@ layers:
   - BT CLR ALL
   - ''
   - ''
-  - ''
+  - {t: Win, h: toggle}
   - ''
   - ''
   - {t: ▽, type: trans}
