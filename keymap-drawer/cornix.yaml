@@ -91,7 +91,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - LEFT COMMAND
   - '&win_lctl'
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
