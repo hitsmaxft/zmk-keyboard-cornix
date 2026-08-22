@@ -23,7 +23,6 @@
 #define FUNCTION 4
 #define ADJUST   5
 #define NAVI     6
-#define SWAP     7  // reachable only while a Windows-layer thumb CTRL is held
 
 // https://github.com/urob/zmk-config/tree/main#timeless-homerow-mods
 
@@ -186,12 +185,18 @@
         };
 
         /*
-         * TAB on the SWAP layer. The first press, with CTRL still held, runs
-         * &alt_tab, which drops CTRL from the report and holds ALT down. That
-         * clears MOD_LCTL/MOD_RCTL from the explicit modifiers the morph
-         * tests, so every later press takes the plain &kp TAB branch and
-         * lands as ALT+TAB with the ALT that is still held. SHIFT is not
-         * listed in mods, so CTRL+SHIFT+TAB cycles backwards.
+         * The first press, with CTRL still held, runs &alt_tab, which drops
+         * CTRL from the report and holds ALT down. That clears MOD_LCTL from
+         * the explicit modifiers this morph tests, so every later press takes
+         * the plain &kp TAB branch and lands as ALT+TAB with the ALT that is
+         * still held. SHIFT is not listed in mods, so CTRL+SHIFT+TAB cycles
+         * backwards.
+         *
+         * RCTRL is deliberately left out of mods. Only win_lctl releases the
+         * held ALT, and it is the only LCTRL that can reach this morph with a
+         * left-hand TAB, since the home-row LCTRL on A is positional and
+         * resolves as a tap against left-hand keys. Adding RCTRL would let
+         * the home-row CTRL on ; press an ALT that nothing then releases.
          */
 
         ctl_tab: ctrl_tab {
@@ -199,7 +204,7 @@
             #binding-cells = <0>;
             bindings = <&kp TAB>, <&alt_tab>;
 
-            mods = <(MOD_LCTL|MOD_RCTL)>;
+            mods = <MOD_LCTL>;
         };
     };
 
@@ -248,10 +253,12 @@
         };
 
         /*
-         * CTRL on the Windows layer's left thumb. Holding it also holds the
-         * SWAP layer, which is the only place &ctl_tab lives, so ALT can
-         * never be pressed without this key's release being there to let it
-         * go. That release is what commits the app switcher.
+         * CTRL on the Windows layer's left thumb, and the only thing that
+         * releases the ALT &alt_tab holds - that release is what commits the
+         * app switcher. Tapping this key therefore also clears an ALT left
+         * over from the one path that can strand it: holding A long enough
+         * for its home-row LCTRL to resolve against a right-hand key, then
+         * pressing TAB.
          */
 
         win_lctl: win_left_ctrl {
@@ -261,10 +268,10 @@
             wait-ms = <0>;
             bindings =
                 <&macro_press>,
-                <&kp LCTRL &mo SWAP>,
+                <&kp LCTRL>,
                 <&macro_pause_for_release>,
                 <&macro_release>,
-                <&kp LCTRL &kp LALT &mo SWAP>;
+                <&kp LCTRL &kp LALT>;
         };
     };
 
@@ -388,8 +395,8 @@
              * This layer sits directly above BASE so every momentary layer
              * (SYMBOL and above) still takes precedence over it.
              *
-             * The left thumb is a macro holding CTRL and the SWAP layer
-             * together, so CTRL+TAB switches apps the way CMD+TAB does on
+             * The left thumb is a macro holding CTRL, and TAB morphs while
+             * it is down, so CTRL+TAB switches apps the way CMD+TAB does on
              * macOS, with ALT held until the thumb comes up. The right thumb
              * is left alone: base already has GUI there, which is the Windows
              * key on a Windows host. The Navi layer keeps a plain
@@ -397,10 +404,10 @@
              */
 
             bindings = <
-&trans  &trans            &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans            &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans            &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &kp LEFT_COMMAND  &win_lctl  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&ctl_tab  &trans            &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans    &trans            &trans     &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
+&trans    &trans            &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans    &kp LEFT_COMMAND  &win_lctl  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
             >;
         };
 
@@ -484,24 +491,6 @@
 &none  &trans           &trans       &mkp MB2       &mkp MB1    &trans                  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &kp RCTRL  &none
 &none  &none            &none        &none          &none       &trans  &trans  &trans  &trans    &mkp MB1  &mkp MB2  &none      &none      &none
 &none  &none            &none        &trans         &trans      &trans                  &trans    &trans    &kp N5    &none      &none      &none
-            >;
-        };
-
-        swap_layer {
-            display-name = "Swap";
-
-            /*
-             * Held by the Windows layer's left thumb CTRL and nothing else,
-             * which is what keeps a held ALT from outliving the key that
-             * started it. Only TAB is bound; the rest falls through, so
-             * CTRL+C and friends still work while the thumb is down.
-             */
-
-            bindings = <
-&ctl_tab  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
-&trans    &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
-&trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans    &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
             >;
         };
     };
