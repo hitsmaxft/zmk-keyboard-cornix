@@ -56,6 +56,9 @@ if BOARD_CORNIX_LEFT  || BOARD_CORNIX_PH_LEFT || BOARD_CORNIX_RIGHT
 #config BT_CTLR
 #    default BT
 
+# for batter bluetooth
+CONFIG_BT_CTLR_TX_PWR_PLUS_8=y
+
 config BOARD_CORNIX_CHARGER
     default y
 

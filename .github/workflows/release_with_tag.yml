@@ -29,6 +29,7 @@ jobs:
       - name: Package UF2 into a zip
         run: |
           cd ./artifacts
+          find . -type f -name "*.uf2" -exec mv {} . \;
           zip zmk-keyboard-cornix-${{ github.ref_name }}.zip *.uf2
       - name: Determine release type
         id: reltype
