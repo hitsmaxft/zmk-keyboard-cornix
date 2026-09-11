@@ -13,10 +13,10 @@
 #
 ---
 include:
-  - board: nice_nano//zmk
-    shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
-    snippet: studio-rpc-usb-uart nrf52840-nosd
-    artifact-name: cornix_dongle_nosd
+  # - board: nice_nano//zmk
+  #  shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
+  #  snippet: studio-rpc-usb-uart nrf52840-nosd
+  #  artifact-name: cornix_dongle_nosd
   # dongle screen not yet supports zephyr4
   # - board: seeeduino_xiao_ble
   #   shield: cornix_dongle_adapter dongle_screen
