@@ -65,8 +65,8 @@
 | レイヤー | 名称 | 主な役割 | 主な遷移先 |
 |:-:|:--|:--|:--|
 | **Layer 0** | **Latin** | ラテン面 | Symbols / Neovim / Naginata / Left-Navigation / Right-Navigation / Mod-Latin |
-| **Layer 1** | **Symbols** | 記号面 | Latin / Naginata / Mod-Symbols |
-| **Layer 2** | **Neovim** | Neovim移動面 | Latin |
+| **Layer 1** | **Symbols** | 記号面 | Latin / Neovim / Naginata / Mod-Symbols |
+| **Layer 2** | **Neovim** | Neovim移動面 | Latin / Symbols |
 | **Layer 3** | **Naginata** | 薙刀式基本面 | Latin / Naginata-Ext / Naginata-Symbols / Left-Navigation / Right-Navigation / Mod-Latin |
 | **Layer 4** | **Naginata-Ext** | 薙刀式補完面 | Naginata / Mod-Latin |
 | **Layer 5** | **Naginata-Symbols** | 薙刀式記号面 | Latin / Naginata / Mod-Symbols |
@@ -124,8 +124,8 @@ From:
 
 Combos:
 
-- L23 (t) + L22 (s)
-  - `MO(2)` **Layer 2 (Neovim面)**
+- L23 (t) + L22 (s) + LT1 (Enter)
+  - `MO(2)` **Layer 2: Neovim (Neovim移動面)**
 - LT1 (Enter) + L16 または RT1 (Enter) + L16
   - `` Alt + ` `` 送信後 `TO(3)` **Layer 3: Naginata (薙刀式基本面)**
 - LT1 (Enter) + R16 または RT1 (Enter) + R16
@@ -161,6 +161,11 @@ From:
 - L16 (`TO(3)*`)
   - `` Alt + ` `` 送信後 `TO(3)` **Layer 3: Naginata (薙刀式基本面)**
 
+Combos:
+
+- L23 (&) + L22 (0)
+  - `MO(2)` **Layer 2: Neovim (Neovim移動面)**
+
 ---
 
 ### Layer 2: Neovim (Neovim移動面)
@@ -168,7 +173,9 @@ From:
 From:
 
 - **Layer 0: Latin (ラテン面)**
-  - L23 (t) + L22 (s) -> `MO(2)`
+  - L23 (t) + L22 (s) + LT1 (Enter) -> `MO(2)`
+- **Layer 1: Symbols (記号面)**
+  - L23 (&) + L22 (0) -> `MO(2)`
 
 | 左端 | 左小指 | 左薬指 | 左中指 | 左人指 | 左中央 | ギャップ | 右中央 | 右人指 | 右中指 | 右薬指 | 右小指 | 右端 |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
