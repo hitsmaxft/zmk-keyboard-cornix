@@ -14,13 +14,25 @@
         compatible = "zmk,combos";
 
         // -------------------------------------------------------------
-        // Neovim レイヤー呼び出し: 「t」(15) + 「s」(16) (Layer 0: Latin)
+        // Neovim レイヤー呼び出し:
+        // ラテン面における高速打鍵時のホーム段2キー誤爆を防止するため、
+        // Layer 0 (Latin) からは親指キー LT1 (Enter: 43) を加えた3キー同時押しを要求し、
+        // 既に記号面を展開している Layer 1 (Symbols) からは「&」(15) + 「0」(16) の
+        // 2キー同時ホールドでシームレスに Neovim 移動面へ移行させる。
         // -------------------------------------------------------------
-        combo_neovim {
+        combo_neovim_latin {
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+            key-positions = <15 16 43>;
+            bindings = <&mo LAYER_NEOVIM>;
+            layers = <LAYER_LATIN>;
+            slow-release;
+        };
+
+        combo_neovim_symbols {
             timeout-ms = <COMBO_TIMEOUT_MS>;
             key-positions = <15 16>;
             bindings = <&mo LAYER_NEOVIM>;
-            layers = <LAYER_LATIN>;
+            layers = <LAYER_SYMBOLS>;
             slow-release;
         };
 
